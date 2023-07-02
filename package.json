@@ -6,6 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexandreSama/Blackrock-Launcher-V2.git"
+  },
   "author": "Alexandre",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexandreSama/Blackrock-Launcher-V2/issues"
+  },
+  "homepage": "https://github.com/AlexandreSama/Blackrock-Launcher-V2#readme"
 }
