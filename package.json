@@ -2,9 +2,12 @@
   "name": "blackrock-launcher-v2",
   "version": "0.0.1",
   "description": "A Launcher for my Minecraft Server",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "repository": {
     "type": "git",
@@ -15,5 +18,21 @@
   "bugs": {
     "url": "https://github.com/AlexandreSama/Blackrock-Launcher-V2/issues"
   },
-  "homepage": "https://github.com/AlexandreSama/Blackrock-Launcher-V2#readme"
+  "homepage": "https://github.com/AlexandreSama/Blackrock-Launcher-V2#readme",
+  "devDependencies": {
+    "@electron-forge/cli": "^6.2.1",
+    "@electron-forge/maker-deb": "^6.2.1",
+    "@electron-forge/maker-rpm": "^6.2.1",
+    "@electron-forge/maker-squirrel": "^6.2.1",
+    "@electron-forge/maker-zip": "^6.2.1",
+    "@electron-forge/plugin-auto-unpack-natives": "^6.2.1",
+    "@electron-forge/publisher-github": "^6.2.1",
+    "electron": "^25.2.0"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
+    "minecraft-launcher-core": "^3.17.1",
+    "msmc": "^4.1.0",
+    "update-electron-app": "^2.0.1"
+  }
 }
