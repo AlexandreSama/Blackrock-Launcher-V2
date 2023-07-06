@@ -1,2 +1,5 @@
 /node_modules
 out/
+/test
+/test2.js
+/test.js

@@ -1,0 +1,47 @@
+html, body, .container-fluid, .row{
+    height: 100%;
+}
+
+.container-fluid{
+    background: url(../images/novaskin-wallpaper-onaboat.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.row{
+    backdrop-filter: blur(2px);
+}
+
+.topnav, .utilities{
+    height: 20%;
+}
+.btnProfile{
+    width: 40px;
+    height: 40px;
+    padding: 2px;
+    position: relative;
+    top: 10px;
+}
+
+#profilePicture{
+    width: 100%;
+}
+
+.log{
+    height: 60%;
+}
+
+#playBtn{
+    width: 100%;
+    height: 40%;
+    border-radius: 20px;
+}
+.progress{
+    width: 0%;
+    height: 2rem;
+    border-radius: 15px;
+}
+.progress-bar{
+    width: 0%;
+    border-radius: 15px;
+}
