@@ -3,6 +3,7 @@ let dropdownMenu = document.getElementById('dropdown-menu')
 let playBtn = document.getElementById('playBtn')
 let progressbar = document.getElementById('progress-bar')
 let fullBar = document.getElementById('fullBar')
+let goToParam
 let nbModsDownloaded = 1
 
 document.getElementById('loginMS').addEventListener('click', () => {
@@ -36,12 +37,17 @@ function onLogin(profilePicture, dropdownMenu, uid, username, playBtn) {
     dropdownMenu.appendChild(liParameter)
 
     playBtn.disabled = false
+    goToParam =  document.getElementById('parameterLink')
+
+    goToParam.addEventListener('click', () => {
+        window.app.goToParam()
+    })
+    
 }
 
 window.mc.onLoginDone((__event, profile) => {
     onLogin(profilePicture, dropdownMenu, profile[1], profile[0], playBtn)
 })
-
 //MC PARTS
 
 const changeProgress = (progress) => {

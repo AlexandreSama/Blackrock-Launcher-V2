@@ -56,6 +56,14 @@ ipcMain.handle('getAppVersion', () => {
   return app.getVersion();
 });
 
+ipcMain.handle('goToParam', () => {
+    mainWindow.loadFile('./views/param.html')
+})
+
+ipcMain.handle('goToMain', () => {
+    mainWindow.loadFile('./views/main.html')
+})
+
 ipcMain.handle('errorPOU', () => {
   dialog.showErrorBox('Erreur', 'N\'oubliez pas de mettre un mot de passe et/ou un pseudonyme !');
 });

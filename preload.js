@@ -1,8 +1,10 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
-contextBridge.exposeInMainWorld('appInfos', {
+contextBridge.exposeInMainWorld('app', {
     nomApp: () => ipcRenderer.invoke('getAppName'),
     versionApp: () => ipcRenderer.invoke('getAppVersion'),
+    goToParam: () => ipcRenderer.invoke('goToParam'),
+    goToMain: () => ipcRenderer.invoke('goToMain')
     // ping: () => ipcRenderer.invoke('ping')
     //nous pouvons aussi exposer des variables, pas seulement des fonctions
 })
