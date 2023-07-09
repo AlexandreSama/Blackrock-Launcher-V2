@@ -22,6 +22,19 @@ autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = "info"
 autoUpdater.logger.transports.file.resolvePath = () => path.join(paths[0], 'logs/main.log')
 
+autoUpdater.setFeedURL({
+    provider: "github",
+    owner: "AlexandreSama",
+    repo: "Blackrock-Launcher-V2",
+});
+/**
+ * It takes a string as an argument and logs it to the console.
+ * @param text - The text to be displayed in the status bar.
+ */
+function sendStatusToWindow(text) {
+    log.info(text);
+}
+
 const createWindow = () => {
     mainWindow = new BrowserWindow({
         width: 800,
