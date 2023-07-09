@@ -11,7 +11,7 @@ document.getElementById('loginMS').addEventListener('click', () => {
 })
 
 function onLogin(profilePicture, dropdownMenu, uid, username, playBtn) {
-    profilePicture.src = 'https://crafatar.com/avatars/' + uid
+    profilePicture.src = 'https://crafatar.kashir.fr/avatars/' + uid
 
     dropdownMenu.children[0].remove()
 
@@ -47,6 +47,7 @@ function onLogin(profilePicture, dropdownMenu, uid, username, playBtn) {
 
 window.mc.onLoginDone((__event, profile) => {
     onLogin(profilePicture, dropdownMenu, profile[1], profile[0], playBtn)
+    console.log('test')
 })
 //MC PARTS
 

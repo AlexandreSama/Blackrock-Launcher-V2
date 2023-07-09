@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, autoUpdater, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, autoUpdater, dialog, shell } = require('electron');
 const path = require('path');
 const { Client } = require('minecraft-launcher-core');
 const { Auth } = require("msmc");
@@ -29,7 +29,7 @@ const createWindow = () => {
   });
 
   mainWindow.webContents.openDevTools()
-  mainWindow.loadFile('./views/main.html');
+  mainWindow.loadFile('./views/main.html')
 };
 
 app.whenReady().then(() => {
@@ -61,12 +61,14 @@ ipcMain.handle('goToParam', () => {
 })
 
 ipcMain.handle('goToMain', () => {
-    mainWindow.loadFile('./views/main.html')
+    mainWindow.loadFile('./views/main.html').then(() => {
+        mainWindow.webContents.send('loginDone', [token.profile.name, token.profile.id])
+    })
 })
 
-ipcMain.handle('errorPOU', () => {
-  dialog.showErrorBox('Erreur', 'N\'oubliez pas de mettre un mot de passe et/ou un pseudonyme !');
-});
+ipcMain.handle('showGameFolder', () => {
+    shell.openPath(paths[0])
+})
 
 ipcMain.handle('loginMS', async (event, data) => {
   const xboxManager = await authManager.launch("electron");
@@ -75,8 +77,10 @@ ipcMain.handle('loginMS', async (event, data) => {
   mainWindow.webContents.send('loginDone', [token.profile.name, token.profile.id])
 });
 
-async function writeRamToFile(ram, rootFolder) {
-    await fs.writeFile(rootFolder, JSON.stringify({ ram }));
+async function writeRamToFile(ram, rootFolder, event) {
+    ram = ram + 'G'
+    await fs.writeFile(rootFolder + 'options.json', JSON.stringify({ ram }));
+    event.sender.send('ramSaved', 'La ram a bien été sauvegardé !')
 }
 
 async function createFolderIfNotExist(folderPath) {
@@ -278,4 +282,8 @@ async function launchMC(token, rootFolder, modsFolder, javaFolder, event, mainWi
 
 ipcMain.handle('play', async (event, data) => {
   launchMC(token, paths[0], paths[1], paths[2], event, mainWindow)
+})
+
+ipcMain.handle('saveRam', async (event, data) => {
+    writeRamToFile(data, paths[0], event)
 })

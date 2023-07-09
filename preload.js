@@ -4,7 +4,10 @@ contextBridge.exposeInMainWorld('app', {
     nomApp: () => ipcRenderer.invoke('getAppName'),
     versionApp: () => ipcRenderer.invoke('getAppVersion'),
     goToParam: () => ipcRenderer.invoke('goToParam'),
-    goToMain: () => ipcRenderer.invoke('goToMain')
+    goToMain: () => ipcRenderer.invoke('goToMain'),
+    saveRam: (ram) => ipcRenderer.invoke('saveRam', ram),
+    ramSaved: (data) => ipcRenderer.on('ramSaved', (data)),
+    showGameFolder: () => ipcRenderer.invoke('showGameFolder')
     // ping: () => ipcRenderer.invoke('ping')
     //nous pouvons aussi exposer des variables, pas seulement des fonctions
 })
