@@ -32,8 +32,8 @@ module.exports = {
       name: '@electron-forge/publisher-github',
       config: {
         repository: {
-          owner: 'github-user-name',
-          name: 'github-repo-name'
+          owner: 'AlexandreSama',
+          name: 'Blackrock-Launcher-V2'
         },
         prerelease: false,
         draft: true

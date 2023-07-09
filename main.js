@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, autoUpdater, dialog, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
 const path = require('path');
 const { Client } = require('minecraft-launcher-core');
 const { Auth } = require("msmc");
@@ -9,51 +9,97 @@ const AdmZip = require("adm-zip");
 const Downloader = require("nodejs-file-downloader");
 const axios = require('axios').default
 const log = require('electron-log');
+const { autoUpdater } = require('electron-updater');
 let mainWindow;
 let token;
 let paths = [
-  app.getPath('appData') + '\\Blackrock Launcher\\', 
-  app.getPath('appData') + '\\Blackrock Launcher\\mods\\', 
-  app.getPath('appData') + '\\Blackrock Launcher\\java\\'
+    app.getPath('appData') + '\\Blackrock Launcher\\',
+    app.getPath('appData') + '\\Blackrock Launcher\\mods\\',
+    app.getPath('appData') + '\\Blackrock Launcher\\java\\'
 ]
 
-require('update-electron-app')();
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = "info"
+autoUpdater.logger.transports.file.resolvePath = () => path.join(paths[0], 'logs/main.log')
 
 const createWindow = () => {
-  mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-    }
-  });
+    mainWindow = new BrowserWindow({
+        width: 800,
+        height: 600,
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'),
+        }
+    });
 
-  mainWindow.webContents.openDevTools()
-  mainWindow.loadFile('./views/main.html')
+    mainWindow.webContents.openDevTools()
+    mainWindow.loadFile('./views/main.html')
 };
+app.on('ready', function () {
+    autoUpdater.checkForUpdatesAndNotify()
+});
+
+/* Listening for an update-not-available event and then sending a message to the window. */
+autoUpdater.on('checking-for-update', () => {
+    sendStatusToWindow('Checking for update...');
+})
+
+/* Listening for an update-not-available event and then sending a message to the window. */
+autoUpdater.on('update-not-available', (info) => {
+    sendStatusToWindow('Update not available.');
+})
+
+/* A listener for the autoUpdater. It listens for an error and then sends the error to the window. */
+autoUpdater.on('error', (err) => {
+    sendStatusToWindow('Error in auto-updater. ' + err);
+})
+
+/* Showing a notification to the user when an update is available. */
+autoUpdater.on('update-available', () => {
+    sendStatusToWindow('Update available.');
+    notifier.notify({
+        title: 'Mise a jour est disponible !',
+        message: 'Une mise a jour est disponible ! Voulez-vous la télécharger et l\'installer ?',
+        actions: ['Oui', 'Non'],
+        wait: true,
+        icon: './logo.ico',
+        sound: './update.mp3'
+    },
+        function (err, response, metadata) {
+            responseUpdate = response
+        })
+})
+
+/* Listening for an update-downloaded event and then sending a message to the window. */
+autoUpdater.on('update-downloaded', () => {
+    sendStatusToWindow('Update Téléchargé !')
+    sendStatusToWindow(responseUpdate)
+    if (responseUpdate == "oui") {
+        autoUpdater.quitAndInstall(true, true)
+    }
+})
 
 app.whenReady().then(() => {
-  createWindow();
+    createWindow();
 
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
-    }
-  });
+    app.on('activate', () => {
+        if (BrowserWindow.getAllWindows().length === 0) {
+            createWindow();
+        }
+    });
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
 });
 
 ipcMain.handle('getAppName', () => {
-  return app.getName();
+    return app.getName();
 });
 
 ipcMain.handle('getAppVersion', () => {
-  return app.getVersion();
+    return app.getVersion();
 });
 
 ipcMain.handle('goToParam', () => {
@@ -71,10 +117,10 @@ ipcMain.handle('showGameFolder', () => {
 })
 
 ipcMain.handle('loginMS', async (event, data) => {
-  const xboxManager = await authManager.launch("electron");
-  token = await xboxManager.getMinecraft();
+    const xboxManager = await authManager.launch("electron");
+    token = await xboxManager.getMinecraft();
 
-  mainWindow.webContents.send('loginDone', [token.profile.name, token.profile.id])
+    mainWindow.webContents.send('loginDone', [token.profile.name, token.profile.id])
 });
 
 async function writeRamToFile(ram, rootFolder, event) {
@@ -266,10 +312,10 @@ async function launchGame(token, rootFolder, javaFolder, event, mainWindow) {
 
 async function launchMC(token, rootFolder, modsFolder, javaFolder, event, mainWindow) {
     const checkPaths = await checkLauncherPaths(rootFolder, javaFolder, modsFolder, event)
-    if(checkPaths == true){
+    if (checkPaths == true) {
         console.log('Folders Checked !')
         const checkDeps = await checkJavaAndForge(rootFolder, javaFolder, event)
-        if(checkDeps == true){
+        if (checkDeps == true) {
             console.log('Java & Forge Checked !');
             const response = await synchronizeFilesWithJSON(modsFolder, event);
             if (response == true) {
@@ -281,7 +327,7 @@ async function launchMC(token, rootFolder, modsFolder, javaFolder, event, mainWi
 }
 
 ipcMain.handle('play', async (event, data) => {
-  launchMC(token, paths[0], paths[1], paths[2], event, mainWindow)
+    launchMC(token, paths[0], paths[1], paths[2], event, mainWindow)
 })
 
 ipcMain.handle('saveRam', async (event, data) => {
