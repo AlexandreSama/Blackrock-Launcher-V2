@@ -44,7 +44,7 @@ const createWindow = () => {
         }
     });
 
-    mainWindow.webContents.openDevTools()
+    // mainWindow.webContents.openDevTools()
     mainWindow.loadFile('./views/main.html')
 };
 app.on('ready', function () {
