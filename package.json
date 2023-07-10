@@ -20,6 +20,15 @@
     "appId": "fr.alexandre.blackrocklauncher",
     "directories": {
       "buildResources": "build"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "./build/logo.ico"
+    },
+    "nsis": {
+      "installerIcon": "./build/logo.ico",
+      "installerHeaderIcon": "./build/logo.ico",
+      "deleteAppDataOnUninstall": true
     }
   },
   "bugs": {
