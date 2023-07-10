@@ -6,6 +6,11 @@ let fullBar = document.getElementById('fullBar')
 let goToParam
 let nbModsDownloaded = 1
 
+
+window.app.versionApp().then((res) => {
+    document.title = 'Blackrock Launcher | V' + res
+})
+
 document.getElementById('loginMS').addEventListener('click', () => {
     window.mc.login();
 })

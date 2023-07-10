@@ -4,6 +4,10 @@ var goToMain = document.getElementById('goToMain')
 var saveRam = document.getElementById('saveRam')
 var showGameFolder = document.getElementById('showGameFolder')
 
+window.app.versionApp().then((res) => {
+    document.title = 'Blackrock Launcher | V' + res
+})
+
 label.innerHTML = range.value + 'Go'
 
 range.oninput = function(){
