@@ -5,6 +5,7 @@ const { Auth } = require("msmc");
 const authManager = new Auth("select_account");
 const launcher = new Client();
 const fs = require('fs').promises;
+const fs2 = require('fs')
 const AdmZip = require("adm-zip");
 const Downloader = require("nodejs-file-downloader");
 const axios = require('axios').default
@@ -144,6 +145,18 @@ async function writeRamToFile(ram, rootFolder, event) {
     event.sender.send('ramSaved', 'La ram a bien été sauvegardé !')
 }
 
+async function getRamFromFile(rootFolder) {
+    try {
+      const data = await fs.readFile(rootFolder + 'options.json', 'utf-8');
+      const json = JSON.parse(data);
+      const ram = json.ram;
+      return ram;
+    } catch (error) {
+      console.error('Error reading file:', error);
+      return 0;
+    }
+}
+
 async function createFolderIfNotExist(folderPath) {
     try {
         if (!await fs.access(folderPath).catch(() => false)) {
@@ -244,7 +257,6 @@ async function synchronizeFilesWithJSON(folderPath, event) {
             event.sender.send('modEvents', `${missingFiles.length} files are missing from the folder!`);
 
             for (const file of missingFiles) {
-                console.log(`https://blackrockapi.kashir.fr/mod/` + file)
                 const downloadFile = new Downloader({
                     url: `https://blackrockapi.kashir.fr/mod/` + file,
                     directory: folderPath,
@@ -276,7 +288,7 @@ async function synchronizeFilesWithJSON(folderPath, event) {
     }
 }
 
-async function launchGame(token, rootFolder, javaFolder, event, mainWindow) {
+async function launchGame(token, rootFolder, javaFolder, ram, event, mainWindow) {
     const opts = {
         clientPackage: null,
         authorization: token.mclc(),
@@ -288,7 +300,7 @@ async function launchGame(token, rootFolder, javaFolder, event, mainWindow) {
             type: "release"
         },
         memory: {
-            max: "8G",
+            max: ram !== 0 ? ram : "8G",
             min: "4G"
         }
     };
@@ -335,7 +347,11 @@ async function launchMC(token, rootFolder, modsFolder, javaFolder, event, mainWi
             const response = await synchronizeFilesWithJSON(modsFolder, event);
             if (response == true) {
                 console.log('Mods Checked !');
-                launchGame(token, rootFolder, javaFolder, event, mainWindow);
+                getRamFromFile(rootFolder)
+                .then(ram => {
+                    launchGame(token, rootFolder, javaFolder, ram, event, mainWindow);
+                    // Utilisez la valeur de la RAM comme vous le souhaitez
+                })
             }
         }
     }
@@ -347,4 +363,8 @@ ipcMain.handle('play', async (event, data) => {
 
 ipcMain.handle('saveRam', async (event, data) => {
     writeRamToFile(data, paths[0], event)
+})
+
+ipcMain.handle('getRam', async (event, data) => {
+    return getRamFromFile(paths[0], event)
 })

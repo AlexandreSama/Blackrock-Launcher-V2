@@ -22,5 +22,5 @@ contextBridge.exposeInMainWorld('mc', {
     onJavaAlreadyDownloaded: (data) => ipcRenderer.on('javaEvents', (data)),
     onJavaDownloaded: (data) => ipcRenderer.on('javaEvents', (data)),
     onStoppingGame: (data) => ipcRenderer.on('stoppingGame', (data)),
-
+    getRam: () => ipcRenderer.invoke('getRam')
 })

@@ -8,10 +8,13 @@ window.app.versionApp().then((res) => {
     document.title = 'Blackrock Launcher | V' + res
 })
 
-label.innerHTML = range.value + 'Go'
+window.mc.getRam().then((res) => {
+    label.innerHTML = res
+    range.value = res
+})
 
 range.oninput = function(){
-    label.innerHTML = this.value + 'Go'
+    label.innerHTML = this.value + 'G'
 }
 
 goToMain.addEventListener('click', () => {
