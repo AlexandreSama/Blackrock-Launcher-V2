@@ -1,8 +1,9 @@
 {
   "name": "blackrock-launcher-v2",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A Launcher for my Minecraft Server",
   "main": "main.js",
+  "icon": "./logo.ico",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron-forge start",
@@ -15,6 +16,9 @@
   },
   "author": "Alexandre",
   "license": "ISC",
+  "build": {
+    "appId": "fr.alexandre.blackrocklauncher"
+  },
   "bugs": {
     "url": "https://github.com/AlexandreSama/Blackrock-Launcher-V2/issues"
   },
