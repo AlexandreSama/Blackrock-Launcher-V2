@@ -10,6 +10,7 @@ const Downloader = require("nodejs-file-downloader");
 const axios = require('axios').default
 const log = require('electron-log');
 const { autoUpdater } = require('electron-updater');
+const notifier = require('node-notifier');
 let mainWindow;
 let token;
 let paths = [
