@@ -1,57 +1,46 @@
 const profilePicture = document.getElementById('profilePicture')
-let dropdownMenu = document.getElementById('dropdown-menu')
 let playBtn = document.getElementById('playBtn')
+let loginBtn = document.getElementsByClassName('loginMS')[0]
 let progressbar = document.getElementById('progress-bar')
 let fullBar = document.getElementById('fullBar')
-let goToParam
+let tab = document.getElementById('v-pills-tab')
+var range = document.getElementById('customRange3')
+var label = document.getElementById('ramSelect')
+var saveRam = document.getElementById('saveRam')
+var showGameFolder = document.getElementById('showGameFolder')
 let nbModsDownloaded = 1
-
 
 window.app.versionApp().then((res) => {
     document.title = 'Blackrock Launcher | V' + res
 })
 
-document.getElementById('loginMS').addEventListener('click', () => {
+loginBtn.addEventListener('click', () => {
     window.mc.login();
 })
 
-function onLogin(profilePicture, dropdownMenu, uid, username, playBtn) {
+function onLogin(profilePicture, uid, username, playBtn, loginBtn) {
     profilePicture.src = 'https://crafatar.kashir.fr/avatars/' + uid
-
-    dropdownMenu.children[0].remove()
-
-    //Header Dropdown
-    let liHeader = document.createElement('li')
-    let h6Header = document.createElement('h6')
-
-    h6Header.className = 'dropdown-header'
-    h6Header.innerHTML = username
-    liHeader.appendChild(h6Header)
-
-    //Parameter Dropdown
-    let liParameter = document.createElement('li')
-    let aParameter = document.createElement('a')
-
-    aParameter.className = 'dropdown-item'
-    aParameter.href = '#'
-    aParameter.id = 'parameterLink'
-    aParameter.innerHTML = 'Paramètres'
-    liParameter.appendChild(aParameter)
-
-    dropdownMenu.appendChild(liHeader)
-    dropdownMenu.appendChild(liParameter)
-
+    loginBtn.disabled = true
     playBtn.disabled = false
-    goToParam =  document.getElementById('parameterLink')
 
-    goToParam.addEventListener('click', () => {
-        window.app.goToParam()
-    })
+    let newButton = document.createElement('button')
+    let newContent = document.createTextNode('Paramètres')
+    newButton.className = 'nav-link'
+    newButton.id = 'v-pills-param-tab'
+    newButton.setAttribute('data-bs-toggle', 'pill')
+    newButton.setAttribute('data-bs-target', '#v-pills-param')
+    newButton.type = 'button'
+    newButton.setAttribute('role', 'tab')
+    newButton.setAttribute('aria-controls', 'v-pills-param')
+    newButton.ariaSelected = 'false'
+
+    newButton.appendChild(newContent)
+    tab.appendChild(newButton)
     
 }
 
 window.mc.onLoginDone((__event, profile) => {
-    onLogin(profilePicture, dropdownMenu, profile[1], profile[0], playBtn)
+    onLogin(profilePicture, profile[1], profile[0], playBtn, loginBtn)
     console.log('test')
 })
 //MC PARTS
@@ -118,4 +107,29 @@ window.mc.onJavaDownloaded((__event, data) => {
 window.mc.onStoppingGame((__event, data) => {
     progressbar.innerHTML = ''
     playBtn.disabled = false
+})
+
+window.mc.getRam().then((res) => {
+    label.innerHTML = res
+    range.value = res
+})
+
+range.oninput = function(){
+    label.innerHTML = this.value + 'G'
+}
+
+goToMain.addEventListener('click', () => {
+    window.app.goToMain()
+})
+
+saveRam.addEventListener('click', () => {
+    window.app.saveRam(range.value)
+})
+
+showGameFolder.addEventListener('click', () => {
+    window.app.showGameFolder()
+})
+
+window.app.ramSaved((__event, data) => {
+    label.innerHTML = data
 })

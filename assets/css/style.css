@@ -2,25 +2,43 @@ html, body, .container-fluid, .row{
     height: 100%;
 }
 
-.container-fluid{
+body{
     background: url(../images/novaskin-wallpaper-onaboat.jpg);
     background-size: cover;
     background-repeat: no-repeat;
-}
-
-.row{
     backdrop-filter: blur(2px);
+
 }
 
+.nav{
+    filter: grayscale(60%);
+    height: 100%;
+    background-color: black;
+    opacity: .7;
+    align-items: center;
+    width: 20%;
+}
+
+.loginMS{
+    width: 50%;
+    margin-top: 10px;
+    /* background: #0d6efd!important */
+}
 .topnav, .utilities{
     height: 20%;
+}
+.dropdown{
+    margin-top: 10px;
 }
 .btnProfile{
     width: 40px;
     height: 40px;
-    padding: 2px;
+    padding: 0;
     position: relative;
-    top: 10px;
+}
+.btn-secondary:focus {
+    border: 0;
+    box-shadow: none;
 }
 
 #profilePicture{
@@ -28,7 +46,7 @@ html, body, .container-fluid, .row{
 }
 
 .log{
-    height: 60%;
+    height: 40%;
 }
 
 #playBtn{
@@ -44,4 +62,14 @@ html, body, .container-fluid, .row{
 .progress-bar{
     width: 0%;
     border-radius: 15px;
+}
+
+#containerParam{
+    color: white;
+}
+#ramSelect, #customRange3{
+    margin-bottom: 10px;
+}
+#saveRam{
+    width: 20%;
 }

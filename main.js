@@ -9,20 +9,26 @@ const fs2 = require('fs')
 const AdmZip = require("adm-zip");
 const Downloader = require("nodejs-file-downloader");
 const axios = require('axios').default
-const log = require('electron-log');
+const logNocturia = require('electron-log');
+const logApp = require('electron-log');
 const { autoUpdater } = require('electron-updater');
 const notifier = require('node-notifier');
 let mainWindow;
 let token;
-let paths = [
+let appPaths = [
     app.getPath('appData') + '\\Blackrock Launcher\\',
-    app.getPath('appData') + '\\Blackrock Launcher\\mods\\',
-    app.getPath('appData') + '\\Blackrock Launcher\\java\\'
+]
+let nocturiaPaths = [
+    appPaths[0] + 'Nocturia\\',
+    appPaths[0] + 'Nocturia\\mods\\',
+    appPaths[0] + 'Nocturia\\java\\'
 ]
 
-autoUpdater.logger = log;
+autoUpdater.logger = logApp;
 autoUpdater.logger.transports.file.level = "info"
-autoUpdater.logger.transports.file.resolvePath = () => path.join(paths[0], 'logs/main.log')
+autoUpdater.logger.transports.file.resolvePath = () => path.join(appPaths[0], 'logs/main.log')
+
+logNocturia.transports.file.resolvePath = () => path.join(nocturiaPaths[0], 'NocturiaLogs/main.log')
 
 autoUpdater.setFeedURL({
     provider: "github",
@@ -34,7 +40,7 @@ autoUpdater.setFeedURL({
  * @param text - The text to be displayed in the status bar.
  */
 function sendStatusToWindow(text) {
-    log.info(text);
+    logApp.info(text);
 }
 
 const createWindow = () => {
@@ -129,7 +135,7 @@ ipcMain.handle('goToMain', () => {
 })
 
 ipcMain.handle('showGameFolder', () => {
-    shell.openPath(paths[0])
+    shell.openPath(nocturiaPaths[0])
 })
 
 ipcMain.handle('loginMS', async (event, data) => {
@@ -175,7 +181,7 @@ async function checkLauncherPaths(rootFolder, javaFolder, modsFolder, event) {
         await createFolderIfNotExist(element);
     }
 
-    log.info('Folders checked!');
+    logNocturia.info('Folders checked!');
     event.sender.send('finishFile');
     return true
 }
@@ -239,7 +245,6 @@ async function checkJavaAndForge(rootFolder, javaFolder, event) {
 }
 
 async function synchronizeFilesWithJSON(folderPath, event) {
-    console.log('test')
     try {
         // Charger le contenu du fichier JSON
         const response = await axios.get('https://blackrockapi.kashir.fr/modlist');
@@ -309,16 +314,16 @@ async function launchGame(token, rootFolder, javaFolder, ram, event, mainWindow)
 
     launcher.on('close', (e) => {
         if (e === 1) {
-            log.warn('The Minecraft Process Stop with Code Error: ' + e + ' Which means that you closed the Minecraft Process');
+            logNocturia.warn('The Minecraft Process Stop with Code Error: ' + e + ' Which means that you closed the Minecraft Process');
         } else {
-            log.error("The Minecraft Process Stop with Code Error: " + e + " Which means that your Minecraft Process has crashed. Check your RAM or the logs, otherwise call my creator and give him this error code and your log file!");
+            logNocturia.error("The Minecraft Process Stop with Code Error: " + e + " Which means that your Minecraft Process has crashed. Check your RAM or the logs, otherwise call my creator and give him this error code and your log file!");
         }
         mainWindow.show();
         event.sender.send('stoppingGame');
     });
 
     launcher.on('progress', (e) => {
-        log.info('["Minecraft-Progress"] ' + e.type + ' | ' + e.task + ' | ' + e.total);
+        logNocturia.info('["Minecraft-Progress"] ' + e.type + ' | ' + e.task + ' | ' + e.total);
         event.sender.send('dataDownload', {
             type: e.type,
             task: e.task,
@@ -326,10 +331,10 @@ async function launchGame(token, rootFolder, javaFolder, ram, event, mainWindow)
         });
     });
     launcher.on('debug', (e) => {
-        log.debug('["Minecraft-Debug"] ' + e);
+        logNocturia.debug('["Minecraft-Debug"] ' + e);
     });
     launcher.on('data', (e) => {
-        log.info('["Minecraft-Data"] ' + e);
+        logNocturia.info('["Minecraft-Data"] ' + e);
     });
     launcher.once('data', (e) => {
         mainWindow.hide();
@@ -358,13 +363,13 @@ async function launchMC(token, rootFolder, modsFolder, javaFolder, event, mainWi
 }
 
 ipcMain.handle('play', async (event, data) => {
-    launchMC(token, paths[0], paths[1], paths[2], event, mainWindow)
+    launchMC(token, nocturiaPaths[0], nocturiaPaths[1], nocturiaPaths[2], event, mainWindow)
 })
 
 ipcMain.handle('saveRam', async (event, data) => {
-    writeRamToFile(data, paths[0], event)
+    writeRamToFile(data, nocturiaPaths[0], event)
 })
 
 ipcMain.handle('getRam', async (event, data) => {
-    return getRamFromFile(paths[0], event)
+    return getRamFromFile(nocturiaPaths[0], event)
 })
