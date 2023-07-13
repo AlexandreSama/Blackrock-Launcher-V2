@@ -53,6 +53,7 @@ const changeProgress = (progress) => {
 playBtn.addEventListener('click', () => {
     window.mc.play()
     playBtn.disabled = true
+    saveRam.disabled = true
     fullBar.style.width = '100%'
     progressbar.style.width = '100%'
     progressbar.innerHTML = 'Préparation du lancement...'
