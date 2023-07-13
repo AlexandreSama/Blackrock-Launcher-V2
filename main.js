@@ -128,12 +128,6 @@ ipcMain.handle('goToParam', () => {
     mainWindow.loadFile('./views/param.html')
 })
 
-ipcMain.handle('goToMain', () => {
-    mainWindow.loadFile('./views/main.html').then(() => {
-        mainWindow.webContents.send('loginDone', [token.profile.name, token.profile.id])
-    })
-})
-
 ipcMain.handle('showGameFolder', () => {
     shell.openPath(nocturiaPaths[0])
 })
@@ -159,7 +153,7 @@ async function getRamFromFile(rootFolder) {
       return ram;
     } catch (error) {
       console.error('Error reading file:', error);
-      return 0;
+      return 8;
     }
 }
 

@@ -119,10 +119,6 @@ range.oninput = function(){
     label.innerHTML = this.value + 'G'
 }
 
-goToMain.addEventListener('click', () => {
-    window.app.goToMain()
-})
-
 saveRam.addEventListener('click', () => {
     window.app.saveRam(range.value)
 })
@@ -133,4 +129,5 @@ showGameFolder.addEventListener('click', () => {
 
 window.app.ramSaved((__event, data) => {
     label.innerHTML = data
+    range.value = data
 })
