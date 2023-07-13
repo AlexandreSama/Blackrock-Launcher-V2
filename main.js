@@ -147,13 +147,13 @@ ipcMain.handle('loginMS', async (event, data) => {
 
 async function writeRamToFile(ram, rootFolder, event) {
     ram = ram + 'G'
-    await fs.writeFile(rootFolder + 'options.json', JSON.stringify({ ram }));
+    await fs.writeFile(rootFolder + 'nocturiaOptions.json', JSON.stringify({ ram }));
     event.sender.send('ramSaved', 'La ram a bien été sauvegardé !')
 }
 
 async function getRamFromFile(rootFolder) {
     try {
-      const data = await fs.readFile(rootFolder + 'options.json', 'utf-8');
+      const data = await fs.readFile(rootFolder + 'nocturiaOptions.json', 'utf-8');
       const json = JSON.parse(data);
       const ram = json.ram;
       return ram;
