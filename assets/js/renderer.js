@@ -43,6 +43,7 @@ window.mc.onLoginDone((__event, profile) => {
     onLogin(profilePicture, profile[1], profile[0], playBtn, loginBtn)
     console.log('test')
 })
+
 //MC PARTS
 
 const changeProgress = (progress) => {
@@ -107,7 +108,9 @@ window.mc.onJavaDownloaded((__event, data) => {
 
 window.mc.onStoppingGame((__event, data) => {
     progressbar.innerHTML = ''
+    fullBar.style.width = '0'
     playBtn.disabled = false
+    saveRam.disabled = false
 })
 
 window.mc.getRam().then((res) => {

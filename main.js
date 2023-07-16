@@ -295,7 +295,7 @@ async function launchGame(token, rootFolder, javaFolder, ram, event, mainWindow)
         forge: path.join(rootFolder, 'forge.jar'),
         javaPath: path.join(javaFolder, 'java', 'bin', 'java.exe'),
         version: {
-            number: "1.20.1",
+            number: "1.19.2",
             type: "release"
         },
         memory: {
