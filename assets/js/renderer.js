@@ -90,7 +90,9 @@ playBtn.addEventListener('click', () => {
     progressbar.innerHTML = 'Préparation du lancement...'
 })
 
-// Updates the progress bar based on the download result. This is called every time data is downloaded
+/* The `window.mc.onDataDownload` function is an event listener that listens for the "dataDownload"
+event emitted by the `window.mc` object. When this event is triggered, the provided callback
+function is executed. */
 window.mc.onDataDownload((__event, data) => {
     progressbar.innerHTML = `Téléchargement des ${data.type} : ${data.task} / ${data.total}`
 
