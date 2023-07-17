@@ -199,9 +199,9 @@ async function writeRamToFile(ram, rootFolder, event) {
 /**
  * The function `getRamFromFile` reads a JSON file and returns the value of the `ram` property, or a
  * default value of 8 if there is an error reading the file.
- * @param {string} rootFolder - The `rootFolder` parameter is a string that represents the root folder where the
+ * @param rootFolder - The `rootFolder` parameter is a string that represents the root folder where the
  * file `nocturiaOptions.json` is located.
- * @return {int} the value of the `ram` property from the parsed JSON data. If there is an error reading the
+ * @return the value of the `ram` property from the parsed JSON data. If there is an error reading the
  * file, it will return a default value of 8.
  */
 async function getRamFromFile(rootFolder) {
@@ -219,7 +219,7 @@ async function getRamFromFile(rootFolder) {
 
 /**
  * The function creates a folder if it doesn't already exist.
- * @param {string} folderPath - The folderPath parameter is a string that represents the path of the folder that
+ * @param folderPath - The folderPath parameter is a string that represents the path of the folder that
  * needs to be created if it doesn't already exist.
  */
 async function createFolderIfNotExist(folderPath) {
@@ -237,17 +237,17 @@ async function createFolderIfNotExist(folderPath) {
 /**
  * The function checks if certain folders exist and creates them if they don't, then logs a message and
  * sends a finishFile event.
- * @param {string} rootFolder - The root folder is the main folder where the launcher is installed or where the
+ * @param rootFolder - The root folder is the main folder where the launcher is installed or where the
  * launcher files are located. It is the top-level folder that contains all other folders and files
  * related to the launcher.
- * @param {string} javaFolder - The `javaFolder` parameter represents the folder path where the Java files are
+ * @param javaFolder - The `javaFolder` parameter represents the folder path where the Java files are
  * located.
- * @param {string} modsFolder - The `modsFolder` parameter is the path to the folder where the game mods are
+ * @param modsFolder - The `modsFolder` parameter is the path to the folder where the game mods are
  * stored.
- * @param {import('electron/main').Event}event - The `event` parameter is an object that represents the event that triggered the
+ * @param event - The `event` parameter is an object that represents the event that triggered the
  * function. It is used to send a message back to the sender of the event. In this case, the function
  * is sending a message with the key `'finishFile'` back to the sender.
- * @returns {boolean} a boolean value of true.
+ * @returns a boolean value of true.
  */
 async function checkLauncherPaths(rootFolder, javaFolder, modsFolder, event) {
     const arrayPath = [rootFolder, modsFolder, javaFolder];
@@ -330,6 +330,7 @@ async function checkJavaAndForge(rootFolder, javaFolder, event) {
         event.sender.send('Java and Forge checking completed!');
         return true;
     } catch (error) {
+        console.log(error)
         event.sender.send('Error checking Java and Forge');
         return false;
     }
@@ -484,8 +485,7 @@ async function launchGame(token, rootFolder, javaFolder, ram, event, mainWindow)
  * `launchGame` function so that it can interact with the window if needed.
  */
 async function launchMC(token, rootFolder, modsFolder, javaFolder, event, mainWindow) {
-    const checkPaths = checkLauncherPaths(rootFolder, javaFolder, modsFolder, event)
-    // Check if the paths and deps are checked.
+    const checkPaths = await checkLauncherPaths(rootFolder, javaFolder, modsFolder, event)
     if (checkPaths == true) {
         console.log('Folders Checked !')
         const checkDeps = await checkJavaAndForge(rootFolder, javaFolder, event)
@@ -497,6 +497,7 @@ async function launchMC(token, rootFolder, modsFolder, javaFolder, event, mainWi
                 getRamFromFile(rootFolder)
                 .then(ram => {
                     launchGame(token, rootFolder, javaFolder, ram, event, mainWindow);
+                    console.log('test')
                 })
             }
         }
