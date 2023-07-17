@@ -104,6 +104,7 @@ autoUpdater.on('update-downloaded', () => {
     }
 })
 
+// Creates and starts the window if it doesn't exist. This is called on startup
 app.whenReady().then(() => {
     createWindow();
 
@@ -136,6 +137,12 @@ ipcMain.handle('showGameFolder', () => {
     shell.openPath(nocturiaPaths[0])
 })
 
+/* The above code is a JavaScript code snippet that is using the Electron framework. It is defining an
+IPC (Inter-Process Communication) handler for the 'loginMS' event. When this event is triggered, the
+code asynchronously launches the 'authManager' with the argument "electron". It then retrieves a
+token using the 'getMinecraft' method from the 'xboxManager' object. Finally, it sends a 'loginDone'
+event to the mainWindow's webContents with an array containing the name and ID of the token's
+profile. */
 ipcMain.handle('loginMS', async (event, data) => {
     const xboxManager = await authManager.launch("electron");
     token = await xboxManager.getMinecraft();
@@ -151,7 +158,13 @@ ipcMain.handle('reduceApp', async (event, data) => {
     mainWindow.minimize()
 })
 
-
+/**
+ * The function `getChangelogs` is an asynchronous function that retrieves JSON content from a
+ * specified URL using the axios library.
+ * @param url - The `url` parameter is the URL of the API endpoint or website from which you want to
+ * retrieve the changelogs.
+ * @returns the JSON content obtained from the specified URL.
+ */
 async function getChangelogs(url){
     const response = await axios.get(url);
     let jsonContent = response.data;
@@ -164,12 +177,32 @@ ipcMain.handle('getChangelogs', async (event, data) => {
     })
 })
 
+/**
+ * The function `writeRamToFile` takes in a RAM value, a root folder path, and an event object, and
+ * writes the RAM value to a JSON file in the specified root folder.
+ * @param ram - The `ram` parameter represents the amount of RAM (Random Access Memory) in gigabytes.
+ * It is a string value.
+ * @param rootFolder - The `rootFolder` parameter is the path to the root folder where the file will be
+ * saved. It should be a string representing the directory path.
+ * @param event - The `event` parameter is an object that represents the event that triggered the
+ * function. It is typically used in Electron applications to send messages between the main process
+ * and the renderer process. In this case, the `event` object is used to send a message to the renderer
+ * process indicating that the RAM has
+ */
 async function writeRamToFile(ram, rootFolder, event) {
     ram = ram + 'G'
     await fs.writeFile(rootFolder + 'nocturiaOptions.json', JSON.stringify({ ram }));
     event.sender.send('ramSaved', 'La ram a bien été sauvegardé !')
 }
 
+/**
+ * The function `getRamFromFile` reads a JSON file and returns the value of the `ram` property, or a
+ * default value of 8 if there is an error reading the file.
+ * @param {string} rootFolder - The `rootFolder` parameter is a string that represents the root folder where the
+ * file `nocturiaOptions.json` is located.
+ * @return {int} the value of the `ram` property from the parsed JSON data. If there is an error reading the
+ * file, it will return a default value of 8.
+ */
 async function getRamFromFile(rootFolder) {
     try {
       const data = await fs.readFile(rootFolder + 'nocturiaOptions.json', 'utf-8');
@@ -182,8 +215,15 @@ async function getRamFromFile(rootFolder) {
     }
 }
 
+
+/**
+ * The function creates a folder if it doesn't already exist.
+ * @param {string} folderPath - The folderPath parameter is a string that represents the path of the folder that
+ * needs to be created if it doesn't already exist.
+ */
 async function createFolderIfNotExist(folderPath) {
     try {
+        // Creates a folder if it doesn t exist.
         if (!await fs.access(folderPath).catch(() => false)) {
             console.warn(`Folder ${folderPath} missing! Creating it.`);
             await fs.mkdir(folderPath);
@@ -193,6 +233,21 @@ async function createFolderIfNotExist(folderPath) {
     }
 }
 
+/**
+ * The function checks if certain folders exist and creates them if they don't, then logs a message and
+ * sends a finishFile event.
+ * @param {string} rootFolder - The root folder is the main folder where the launcher is installed or where the
+ * launcher files are located. It is the top-level folder that contains all other folders and files
+ * related to the launcher.
+ * @param {string} javaFolder - The `javaFolder` parameter represents the folder path where the Java files are
+ * located.
+ * @param {string} modsFolder - The `modsFolder` parameter is the path to the folder where the game mods are
+ * stored.
+ * @param {import('electron/main').Event}event - The `event` parameter is an object that represents the event that triggered the
+ * function. It is used to send a message back to the sender of the event. In this case, the function
+ * is sending a message with the key `'finishFile'` back to the sender.
+ * @returns {boolean} a boolean value of true.
+ */
 async function checkLauncherPaths(rootFolder, javaFolder, modsFolder, event) {
     const arrayPath = [rootFolder, modsFolder, javaFolder];
 
@@ -205,10 +260,26 @@ async function checkLauncherPaths(rootFolder, javaFolder, modsFolder, event) {
     return true
 }
 
+
+/**
+ * The function `checkJavaAndForge` checks if Java and Forge are present in the specified folders, and
+ * downloads them if they are missing.
+ * @param rootFolder - The root folder is the main folder where the Java and Forge files are located or
+ * where they will be downloaded to.
+ * @param javaFolder - The `javaFolder` parameter is the path to the folder where the Java files will
+ * be downloaded and extracted.
+ * @param event - The `event` parameter is an object that represents the event being triggered. It is
+ * used to send messages or data back to the caller or to notify the caller about the progress or
+ * completion of certain tasks. In this code, it is used to send messages to the caller about the
+ * status of Java and
+ * @returns a boolean value. If the Java and Forge checking is completed without any errors, it will
+ * return true. Otherwise, if there is an error during the checking process, it will return false.
+ */
 async function checkJavaAndForge(rootFolder, javaFolder, event) {
     try {
         const files = await fs.readdir(javaFolder);
 
+        // Download and extract Java files from blackrockapi.kashir.fr java folder
         if (files.length === 0) {
             event.sender.send('javaEvents', 'Java is missing! I\'m ready to download!');
             const downloadJava = new Downloader({
@@ -263,20 +334,30 @@ async function checkJavaAndForge(rootFolder, javaFolder, event) {
     }
 }
 
+/**
+ * The function `synchronizeFilesWithJSON` synchronizes files in a folder with a JSON file by
+ * downloading missing files and removing extra files.
+ * @param folderPath - The `folderPath` parameter is the path to the folder where the files are
+ * located. It is a string that specifies the directory path.
+ * @param event - The `event` parameter is an object that represents the event that triggered the file
+ * synchronization. It is used to send messages or notifications about the progress or status of the
+ * synchronization process. It is likely that this code is running in an Electron application, where
+ * the `event.sender.send()` method is used to
+ * @returns a boolean value. If the file synchronization is completed successfully, it returns `true`.
+ * If there is an error synchronizing files, it returns `false`.
+ */
 async function synchronizeFilesWithJSON(folderPath, event) {
     try {
-        // Charger le contenu du fichier JSON
         const response = await axios.get('https://blackrockapi.kashir.fr/modlist');
         console.log(response)
 
         const jsonContent = response.data;
         console.log(jsonContent)
 
-        // Obtenir la liste des fichiers dans le dossier
         const folderFiles = await fs.readdir(folderPath);
 
-        // Vérifier les fichiers manquants
         const missingFiles = jsonContent.filter(file => !folderFiles.includes(file));
+        // Download missing files from the folder
         if (missingFiles.length > 0) {
             event.sender.send('modEvents', `${missingFiles.length} files are missing from the folder!`);
 
@@ -292,8 +373,8 @@ async function synchronizeFilesWithJSON(folderPath, event) {
             }
         }
 
-        // Vérifier les fichiers en trop
         const extraFiles = folderFiles.filter(file => !jsonContent.includes(file));
+        // Remove all files from the extraFiles array
         if (extraFiles.length > 0) {
             event.sender.send('modEvents', `${extraFiles.length} files are not present in the JSON!`);
 
@@ -312,6 +393,26 @@ async function synchronizeFilesWithJSON(folderPath, event) {
     }
 }
 
+/**
+ * The function `launchGame` launches a Minecraft game using the specified token, root folder, Java
+ * folder, RAM, event, and mainWindow.
+ * @param token - The `token` parameter is a token used for authorization. It is passed to the
+ * `authorization` property in the `opts` object.
+ * @param rootFolder - The rootFolder parameter is the path to the folder where the Minecraft game
+ * files are located. This folder should contain the necessary files for launching the game, such as
+ * the Minecraft launcher, game assets, and libraries.
+ * @param javaFolder - The `javaFolder` parameter is the path to the folder where the Java installation
+ * is located. It is used to specify the path to the Java executable (`java.exe`) that will be used to
+ * launch the game.
+ * @param ram - The `ram` parameter represents the amount of RAM allocated for the game. It can be
+ * specified in either gigabytes (e.g., "8G") or megabytes (e.g., "8192M"). If the value is set to 0,
+ * it means that the default RAM allocation of
+ * @param event - The `event` parameter is an event emitter object that allows you to send and receive
+ * events between different parts of your application. It is typically used to communicate between the
+ * main process and renderer process in an Electron application.
+ * @param mainWindow - The `mainWindow` parameter is a reference to the main window of the application.
+ * It is used to show or hide the window when launching or stopping the game.
+ */
 async function launchGame(token, rootFolder, javaFolder, ram, event, mainWindow) {
     const opts = {
         clientPackage: null,
@@ -332,6 +433,7 @@ async function launchGame(token, rootFolder, javaFolder, ram, event, mainWindow)
     launcher.launch(opts);
 
     launcher.on('close', (e) => {
+        // This function will be called when the Minecraft Process Stop is called.
         if (e === 1) {
             logNocturia.warn('The Minecraft Process Stop with Code Error: ' + e + ' Which means that you closed the Minecraft Process');
         } else {
@@ -361,8 +463,28 @@ async function launchGame(token, rootFolder, javaFolder, ram, event, mainWindow)
     });
 }
 
+/**
+ * The function `launchMC` checks the paths and dependencies required to launch Minecraft, synchronizes
+ * files with a JSON file, retrieves the allocated RAM from a file, and then launches the game.
+ * @param token - The token parameter is likely a token or authentication key used for accessing
+ * certain resources or services. It could be used for authentication purposes when launching the
+ * Minecraft game.
+ * @param rootFolder - The root folder is the main folder where the Minecraft launcher and game files
+ * are located. It typically contains subfolders such as "versions", "libraries", and "assets".
+ * @param modsFolder - The `modsFolder` parameter is the path to the folder where the Minecraft mods
+ * are located.
+ * @param javaFolder - The `javaFolder` parameter is the path to the folder where the Java executable
+ * is located. This is typically the folder where the Java Development Kit (JDK) is installed.
+ * @param event - The "event" parameter is likely an event object that is used to handle events or
+ * trigger certain actions within the function. It could be an instance of an event class or an object
+ * containing event-related data.
+ * @param mainWindow - The `mainWindow` parameter is likely a reference to the main window or
+ * application window of the program. It is used to pass the reference to the main window to the
+ * `launchGame` function so that it can interact with the window if needed.
+ */
 async function launchMC(token, rootFolder, modsFolder, javaFolder, event, mainWindow) {
-    const checkPaths = await checkLauncherPaths(rootFolder, javaFolder, modsFolder, event)
+    const checkPaths = checkLauncherPaths(rootFolder, javaFolder, modsFolder, event)
+    // Check if the paths and deps are checked.
     if (checkPaths == true) {
         console.log('Folders Checked !')
         const checkDeps = await checkJavaAndForge(rootFolder, javaFolder, event)
@@ -374,7 +496,6 @@ async function launchMC(token, rootFolder, modsFolder, javaFolder, event, mainWi
                 getRamFromFile(rootFolder)
                 .then(ram => {
                     launchGame(token, rootFolder, javaFolder, ram, event, mainWindow);
-                    // Utilisez la valeur de la RAM comme vous le souhaitez
                 })
             }
         }
