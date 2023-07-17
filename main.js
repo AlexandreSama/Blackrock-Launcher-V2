@@ -50,7 +50,8 @@ const createWindow = () => {
         height: 600,
         icon: './build/logo.ico',
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
+            preload: path.join(__dirname, 'preload.js'),
+            contextIsolation: true
         },
         autoHideMenuBar: true,
         frame: false

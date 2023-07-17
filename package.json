@@ -6,7 +6,7 @@
   "icon": "./logo.ico",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron-forge start",
+    "start": "electron .",
     "build": "electron-builder build --win --publish never",
     "deploy": "electron-builder build --win --publish always"
   },
@@ -36,13 +36,6 @@
   },
   "homepage": "https://github.com/AlexandreSama/Blackrock-Launcher-V2#readme",
   "devDependencies": {
-    "@electron-forge/cli": "^6.2.1",
-    "@electron-forge/maker-deb": "^6.2.1",
-    "@electron-forge/maker-rpm": "^6.2.1",
-    "@electron-forge/maker-squirrel": "^6.2.1",
-    "@electron-forge/maker-zip": "^6.2.1",
-    "@electron-forge/plugin-auto-unpack-natives": "^6.2.1",
-    "@electron-forge/publisher-github": "^6.2.1",
     "electron": "^25.3.0",
     "electron-builder": "^24.4.0"
   },
