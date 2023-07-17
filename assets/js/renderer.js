@@ -9,6 +9,8 @@ var label = document.getElementById('ramSelect')
 var saveRam = document.getElementById('saveRam')
 var showGameFolder = document.getElementById('showGameFolder')
 var changelogsPlace = document.getElementById('changelogs')
+var closeBtn = document.getElementById('closeApp')
+var reduceBtn = document.getElementById('reduceApp')
 var nbModsDownloaded = 1
 
 window.app.versionApp().then((res) => {
@@ -36,6 +38,14 @@ window.app.changelogs((__event, data) => {
 
 loginBtn.addEventListener('click', () => {
     window.mc.login();
+})
+
+closeBtn.addEventListener('click', () => {
+    window.app.closeApp()
+})
+
+reduceBtn.addEventListener('click', () => {
+    window.app.reduceApp()
 })
 
 function onLogin(profilePicture, uid, username, playBtn, loginBtn) {

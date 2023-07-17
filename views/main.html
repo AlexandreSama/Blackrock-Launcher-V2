@@ -17,19 +17,25 @@
         type="button" role="tab" aria-controls="v-pills-main" aria-selected="false">
         <img src="../assets/images/user.png" alt="" id="profilePicture">
       </button>
-      <button class="nav-link" id="v-pills-main-tab" data-bs-toggle="pill" data-bs-target="#v-pills-main"
-        type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Nocturia</button>
+      <button class="nav-link" id="v-pills-main-tab" data-bs-toggle="pill" data-bs-target="#v-pills-main" type="button"
+        role="tab" aria-controls="v-pills-home" aria-selected="true">Nocturia</button>
       <button class="nav-link" id="v-pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#v-pills-disabled"
         type="button" role="tab" aria-controls="v-pills-disabled" aria-selected="false" disabled>A venir...</button>
     </div>
     <div class="tab-content" id="v-pills-tabContent" style="width: 100%; height: 100%;">
-      <div class="tab-pane fade show active d-flex flex-column justify-content-center" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0" style=" height: 100%;">
-        <h1>Blackrock Launcher</h1>
-        <div id="changelogs">
+      <button class="btn btn-danger" id="closeApp">X</button>
+      <button class="btn btn-primary" id="reduceApp">-</button>
+      <div class="tab-pane fade show active " id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab"
+        tabindex="0" style=" height: 100%;">
+        <div class="holder d-flex flex-column justify-content-center align-items-center text-center h-100">
+          <h1>Blackrock Launcher</h1>
 
+          <div id="changelogs">
+          </div>
         </div>
       </div>
-      <div class="tab-pane fade show" id="v-pills-main" role="tabpanel" aria-labelledby="v-pills-main-tab" tabindex="0" style=" height: 100%;">
+      <div class="tab-pane fade show" id="v-pills-main" role="tabpanel" aria-labelledby="v-pills-main-tab" tabindex="0"
+        style=" height: 100%;">
         <div class="container-fluid">
           <div class="row justify-content-between">
             <div class="col-12 d-flex align-items-center align-self-start log" id="d"></div>
@@ -48,8 +54,10 @@
           </div>
         </div>
       </div>
-      <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0" style=" height: 100%;">...</div>
-      <div class="tab-pane fade" id="v-pills-param" role="tabpanel" aria-labelledby="v-pills-param-tab" tabindex="0" style=" height: 100%;">
+      <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0"
+        style=" height: 100%;">...</div>
+      <div class="tab-pane fade" id="v-pills-param" role="tabpanel" aria-labelledby="v-pills-param-tab" tabindex="0"
+        style=" height: 100%;">
         <div class="container-fluid" id="containerParam">
           <div class="row">
             <div class="col-12 d-flex">

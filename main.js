@@ -50,12 +50,15 @@ const createWindow = () => {
         height: 600,
         icon: './build/logo.ico',
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js'),
-        }
+            preload: path.join(__dirname, 'preload.js')
+        },
+        autoHideMenuBar: true,
+        frame: false
     });
 
     // mainWindow.webContents.openDevTools()
     mainWindow.loadFile('./views/main.html')
+    // mainWindow.webContents.openDevTools()
 };
 app.on('ready', function () {
     autoUpdater.checkForUpdatesAndNotify()
@@ -139,6 +142,15 @@ ipcMain.handle('loginMS', async (event, data) => {
 
     mainWindow.webContents.send('loginDone', [token.profile.name, token.profile.id])
 });
+
+ipcMain.handle('closeApp', async (event, data) => {
+    app.quit()
+})
+
+ipcMain.handle('reduceApp', async (event, data) => {
+    mainWindow.minimize()
+})
+
 
 async function getChangelogs(url){
     const response = await axios.get(url);
