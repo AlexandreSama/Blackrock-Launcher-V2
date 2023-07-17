@@ -15,6 +15,7 @@ const { autoUpdater } = require('electron-updater');
 const notifier = require('node-notifier');
 let mainWindow;
 let token;
+let url = 'https://api.github.com/repos/AlexandreSama/Blackrock-Launcher-V2/releases'
 let appPaths = [
     app.getPath('appData') + '\\Blackrock Launcher\\',
 ]
@@ -138,6 +139,18 @@ ipcMain.handle('loginMS', async (event, data) => {
 
     mainWindow.webContents.send('loginDone', [token.profile.name, token.profile.id])
 });
+
+async function getChangelogs(url){
+    const response = await axios.get(url);
+    let jsonContent = response.data;
+    return jsonContent
+}
+
+ipcMain.handle('getChangelogs', async (event, data) => {
+    getChangelogs(url).then((res) => {
+        event.sender.send('changelogs', res)
+    })
+})
 
 async function writeRamToFile(ram, rootFolder, event) {
     ram = ram + 'G'

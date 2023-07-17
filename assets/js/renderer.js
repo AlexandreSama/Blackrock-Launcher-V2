@@ -1,17 +1,37 @@
 const profilePicture = document.getElementById('profilePicture')
-let playBtn = document.getElementById('playBtn')
-let loginBtn = document.getElementsByClassName('loginMS')[0]
-let progressbar = document.getElementById('progress-bar')
-let fullBar = document.getElementById('fullBar')
-let tab = document.getElementById('v-pills-tab')
+var playBtn = document.getElementById('playBtn')
+var loginBtn = document.getElementsByClassName('loginMS')[0]
+var progressbar = document.getElementById('progress-bar')
+var fullBar = document.getElementById('fullBar')
+var tab = document.getElementById('v-pills-tab')
 var range = document.getElementById('customRange3')
 var label = document.getElementById('ramSelect')
 var saveRam = document.getElementById('saveRam')
 var showGameFolder = document.getElementById('showGameFolder')
-let nbModsDownloaded = 1
+var changelogsPlace = document.getElementById('changelogs')
+var nbModsDownloaded = 1
 
 window.app.versionApp().then((res) => {
     document.title = 'Blackrock Launcher | V' + res
+})
+window.app.getChangelogs()
+
+window.app.changelogs((__event, data) => {
+    data.forEach((element) => {
+        console.log(element)
+        let dateGithub = Date.parse(element.created_at)
+        let realDate = new Date(dateGithub).toLocaleDateString('fr')
+        let title = document.createElement('h3')
+        let titleContext = document.createTextNode('Mise a jour du ' + realDate + '. ' + element.tag_name)
+        let text = document.createElement('p')
+        let textGithub = document.createTextNode(element.body)
+
+
+        title.appendChild(titleContext)
+        text.appendChild(textGithub)
+        changelogsPlace.appendChild(title)
+        changelogsPlace.appendChild(text)
+    })
 })
 
 loginBtn.addEventListener('click', () => {
