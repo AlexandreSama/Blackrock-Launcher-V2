@@ -53,11 +53,10 @@ const createWindow = () => {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true
         },
-        autoHideMenuBar: true,
-        frame: false
+        // autoHideMenuBar: true,
+        // frame: false
     });
 
-    // mainWindow.webContents.openDevTools()
     mainWindow.loadFile('./views/main.html')
     // mainWindow.webContents.openDevTools()
 };

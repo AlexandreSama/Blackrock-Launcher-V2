@@ -20,19 +20,54 @@ window.app.getChangelogs()
 
 window.app.changelogs((__event, data) => {
     data.forEach((element) => {
-        console.log(element)
+        let test = element.body.split('-')
+        let i = 0
+        let temp = 1
         let dateGithub = Date.parse(element.created_at)
         let realDate = new Date(dateGithub).toLocaleDateString('fr')
-        let title = document.createElement('h3')
-        let titleContext = document.createTextNode('Mise a jour du ' + realDate + '. ' + element.tag_name)
-        let text = document.createElement('p')
-        let textGithub = document.createTextNode(element.body)
+        let title = document.createElement('h5')
+        title.className = 'mt-4'
+        let titleContent = document.createTextNode(' - ' + realDate)
+        let spanTitle = document.createElement('span')
+        spanTitle.className = 'p-2 bg-light shadow rounded text-success'
+        let spanContent = document.createTextNode('Version ' + element.tag_name)
 
+        let holderContentUpdate = document.createElement('ul')
+        holderContentUpdate.className = "list-unstyled mt-3"
+        
+        if(test.length > 1){
+            while (temp <= test.length) {
+                if(test[i].length > 0){
+                    let contentUpdateLi = document.createElement('li')
+                    contentUpdateLi.className = "text-muted ml-3"
+                    let iconContentUpdate = document.createElement('i')
+                    iconContentUpdate.className = "mdi mdi-circle-medium mr-2"
+                    let contentUpdate = document.createTextNode(test[i])
 
-        title.appendChild(titleContext)
-        text.appendChild(textGithub)
+                    contentUpdateLi.appendChild(iconContentUpdate)
+                    contentUpdateLi.appendChild(contentUpdate)
+                    holderContentUpdate.appendChild(contentUpdateLi)
+                }
+                i++
+                temp++
+            }
+        }else{
+            let contentUpdateLi = document.createElement('li')
+            contentUpdateLi.className = "text-muted ml-3"
+            let iconContentUpdate = document.createElement('i')
+            iconContentUpdate.className = "mdi mdi-circle-medium mr-2"
+            let contentUpdate = document.createTextNode(element.body)
+            contentUpdateLi.appendChild(iconContentUpdate)
+            contentUpdateLi.appendChild(contentUpdate)
+            holderContentUpdate.appendChild(contentUpdateLi)
+        }
+
+        
+        spanTitle.appendChild(spanContent)
+        title.appendChild(spanTitle)
+        title.appendChild(titleContent)
         changelogsPlace.appendChild(title)
-        changelogsPlace.appendChild(text)
+        changelogsPlace.appendChild(holderContentUpdate)
     })
 })
 
