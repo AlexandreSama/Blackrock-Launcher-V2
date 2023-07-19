@@ -39,7 +39,7 @@ window.app.changelogs((__event, data) => {
             while (temp <= test.length) {
                 if(test[i].length > 0){
                     let contentUpdateLi = document.createElement('li')
-                    contentUpdateLi.className = "text-muted ml-3"
+                    contentUpdateLi.className = "text-dark fw-bold ml-3"
                     let iconContentUpdate = document.createElement('i')
                     iconContentUpdate.className = "mdi mdi-circle-medium mr-2"
                     let contentUpdate = document.createTextNode(test[i])
@@ -53,7 +53,7 @@ window.app.changelogs((__event, data) => {
             }
         }else{
             let contentUpdateLi = document.createElement('li')
-            contentUpdateLi.className = "text-muted ml-3"
+            contentUpdateLi.className = "text-dark fw-bold ml-3"
             let iconContentUpdate = document.createElement('i')
             iconContentUpdate.className = "mdi mdi-circle-medium mr-2"
             let contentUpdate = document.createTextNode(element.body)
