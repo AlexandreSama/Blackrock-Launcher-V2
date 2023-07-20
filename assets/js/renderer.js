@@ -20,9 +20,11 @@ window.app.getChangelogs()
 
 window.app.changelogs((__event, data) => {
     data.forEach((element) => {
+
         let test = element.body.split('-')
         let i = 0
         let temp = 1
+
         let dateGithub = Date.parse(element.created_at)
         let realDate = new Date(dateGithub).toLocaleDateString('fr')
         let title = document.createElement('h5')
@@ -37,6 +39,7 @@ window.app.changelogs((__event, data) => {
         
         if(test.length > 1){
             while (temp <= test.length) {
+
                 if(test[i].length > 0){
                     let contentUpdateLi = document.createElement('li')
                     contentUpdateLi.className = "text-dark fw-bold ml-3"
@@ -50,8 +53,10 @@ window.app.changelogs((__event, data) => {
                 }
                 i++
                 temp++
+
             }
         }else{
+
             let contentUpdateLi = document.createElement('li')
             contentUpdateLi.className = "text-dark fw-bold ml-3"
             let iconContentUpdate = document.createElement('i')
@@ -60,14 +65,15 @@ window.app.changelogs((__event, data) => {
             contentUpdateLi.appendChild(iconContentUpdate)
             contentUpdateLi.appendChild(contentUpdate)
             holderContentUpdate.appendChild(contentUpdateLi)
-        }
 
+        }
         
         spanTitle.appendChild(spanContent)
         title.appendChild(spanTitle)
         title.appendChild(titleContent)
         changelogsPlace.appendChild(title)
         changelogsPlace.appendChild(holderContentUpdate)
+
     })
 })
 
@@ -111,6 +117,12 @@ window.mc.onLoginDone((__event, profile) => {
 
 //MC PARTS
 
+/**
+ * The function `changeProgress` updates the width of a progress bar element based on the given
+ * progress value.
+ * @param {int} progress - The progress parameter is a number that represents the percentage of progress. It
+ * should be a value between 0 and 100.
+ */
 const changeProgress = (progress) => {
     progressbar.style.width = `${progress}%`;
 };

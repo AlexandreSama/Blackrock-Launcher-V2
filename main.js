@@ -14,6 +14,7 @@ const logApp = require('electron-log');
 const { autoUpdater } = require('electron-updater');
 const notifier = require('node-notifier');
 let mainWindow;
+let bootstrapWindow
 let token;
 let url = 'https://api.github.com/repos/AlexandreSama/Blackrock-Launcher-V2/releases'
 let appPaths = [
@@ -93,6 +94,17 @@ autoUpdater.on('update-available', () => {
     },
         function (err, response, metadata) {
             responseUpdate = response
+            if(response == "oui"){
+                bootstrapWindow = new BrowserWindow({
+                    parent: mainWindow,
+                    width: 100,
+                    height: 100,
+                    // autoHideMenuBar: true,
+                    // frame: false
+                })
+                bootstrapWindow.loadFile('./views/bootstrap.html')
+                mainWindow.hide()
+            }
         })
 })
 
@@ -103,6 +115,10 @@ autoUpdater.on('update-downloaded', () => {
     if (responseUpdate == "oui") {
         autoUpdater.quitAndInstall(true, true)
     }
+})
+
+autoUpdater.on('download-progress', (progress) => {
+
 })
 
 // Creates and starts the window if it doesn't exist. This is called on startup
