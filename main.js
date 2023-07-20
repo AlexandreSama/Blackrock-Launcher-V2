@@ -67,6 +67,8 @@ const createWindow = () => {
   });
   bootstrapWindow = new BrowserWindow({
     parent: mainWindow,
+    modal: true, 
+    show: false,
     width: 100,
     height: 100,
     // autoHideMenuBar: true,
