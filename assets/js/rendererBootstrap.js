@@ -7,6 +7,6 @@ const changeProgress = (progress) => {
 };
 
 window.app.bootstrapDownload((__event, data) => {
-    changeProgress(data.percent)
-    progressbar.innerHTML = 'Téléchargement a ' + data.percent + ' % | Vitesse de DWL : ' + bytesPerSecond + ' Mb/s'
+    changeProgress(data.percent.toString())
+    progressbar.innerHTML = 'Téléchargement a ' + data.percent.toString() + ' % | Vitesse de DWL : ' + bytesPerSecond + ' Mb/s'
 })

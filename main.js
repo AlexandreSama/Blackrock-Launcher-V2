@@ -62,8 +62,8 @@ const createWindow = () => {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
     },
-    autoHideMenuBar: true,
-    frame: false,
+    // autoHideMenuBar: true,
+    // frame: false,
   });
   bootstrapWindow = new BrowserWindow({
     parent: mainWindow,
@@ -71,12 +71,16 @@ const createWindow = () => {
     show: false,
     width: 400,
     height: 150,
-    autoHideMenuBar: true,
-    frame: false
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+      contextIsolation: true
+    },
+    // autoHideMenuBar: true,
+    // frame: false
   });
 
   mainWindow.loadFile("./views/main.html");
-  // autoUpdater.emit('update-available')
+  bootstrapWindow.loadFile("./views/bootstrap.html");
 
   // mainWindow.webContents.openDevTools()
 };
@@ -133,7 +137,7 @@ autoUpdater.on("update-downloaded", () => {
 });
 
 autoUpdater.on("download-progress", (progress) => {
-    ipcMain.emit('bootstrapDownload', progress)
+    bootstrapWindow.webContents.send('bootstrapDownload', progress)
 });
 
 // Creates and starts the window if it doesn't exist. This is called on startup
