@@ -69,13 +69,15 @@ const createWindow = () => {
     parent: mainWindow,
     modal: true, 
     show: false,
-    width: 100,
-    height: 100,
-    // autoHideMenuBar: true,
-    // frame: false
+    width: 400,
+    height: 150,
+    autoHideMenuBar: true,
+    frame: false
   });
 
   mainWindow.loadFile("./views/main.html");
+  // autoUpdater.emit('update-available')
+
   // mainWindow.webContents.openDevTools()
 };
 app.on("ready", function () {
