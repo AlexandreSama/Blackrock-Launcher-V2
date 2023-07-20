@@ -10,7 +10,8 @@ contextBridge.exposeInMainWorld('app', {
     getChangelogs: () => ipcRenderer.invoke('getChangelogs'),
     changelogs: (changelogs) => ipcRenderer.on('changelogs', (changelogs)),
     closeApp: () => ipcRenderer.invoke('closeApp'),
-    reduceApp: () => ipcRenderer.invoke('reduceApp')
+    reduceApp: () => ipcRenderer.invoke('reduceApp'),
+    bootstrapDownload: (data) => ipcRenderer.on('bootstrapDownload', (data))
     //nous pouvons aussi exposer des variables, pas seulement des fonctions
 })
 contextBridge.exposeInMainWorld('mc', {
