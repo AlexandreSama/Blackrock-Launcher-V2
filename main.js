@@ -62,15 +62,15 @@ const createWindow = () => {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
     },
-    // autoHideMenuBar: true,
-    // frame: false,
+    autoHideMenuBar: true,
+    frame: false,
   });
   bootstrapWindow = new BrowserWindow({
     parent: mainWindow,
     modal: true, 
     show: false,
     width: 400,
-    height: 150,
+    height: 200,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true
@@ -119,7 +119,6 @@ autoUpdater.on("update-available", () => {
     function (err, response, metadata) {
       responseUpdate = response;
       if (response == "oui") {
-        bootstrapWindow.loadFile("./views/bootstrap.html");
         mainWindow.hide();
         bootstrapWindow.show()
       }
