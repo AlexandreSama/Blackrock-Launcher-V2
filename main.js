@@ -61,6 +61,7 @@ const createWindow = () => {
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
+      // devTools: true
     },
     autoHideMenuBar: true,
     frame: false,
@@ -82,7 +83,7 @@ const createWindow = () => {
   mainWindow.loadFile("./views/main.html");
   bootstrapWindow.loadFile("./views/bootstrap.html");
 
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools({mode: 'detach', activate: true})
 };
 app.on("ready", function () {
   autoUpdater.checkForUpdatesAndNotify();

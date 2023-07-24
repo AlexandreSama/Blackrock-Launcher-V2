@@ -7,9 +7,11 @@ body{
     background-size: cover;
     background-repeat: no-repeat;
     backdrop-filter: blur(2px);
+    -webkit-app-region: drag
 
 
 }
+
 body::-webkit-scrollbar{
     display: none;
   }
@@ -22,6 +24,8 @@ body::-webkit-scrollbar{
     width: 40px;
 
     border-radius: 20px;
+    z-index: 1;
+    -webkit-app-region: no-drag;
 }
 
 #reduceApp{
@@ -29,6 +33,8 @@ body::-webkit-scrollbar{
     right: 45px;
     border-radius: 20px;
     width: 40px;
+    z-index: 1;
+    -webkit-app-region: no-drag;
 }
 
 h3, p{
@@ -68,7 +74,13 @@ h1{
 .loginMS{
     width: 50%;
     margin-top: 10px;
+    -webkit-app-region: no-drag;
+
     /* background: #0d6efd!important */
+}
+.accueil, .nocturia, .param{
+    -webkit-app-region: no-drag;
+
 }
 .topnav, .utilities{
     height: 20%;
@@ -98,6 +110,7 @@ h1{
 #playBtn{
     width: 100%;
     height: 40%;
+    -webkit-app-region: no-drag;
     border-radius: 20px;
 }
 .progress{

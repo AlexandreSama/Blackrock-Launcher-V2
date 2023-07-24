@@ -96,7 +96,7 @@ function onLogin(profilePicture, uid, username, playBtn, loginBtn) {
 
     let newButton = document.createElement('button')
     let newContent = document.createTextNode('Paramètres')
-    newButton.className = 'nav-link'
+    newButton.className = 'nav-link param'
     newButton.id = 'v-pills-param-tab'
     newButton.setAttribute('data-bs-toggle', 'pill')
     newButton.setAttribute('data-bs-target', '#v-pills-param')
