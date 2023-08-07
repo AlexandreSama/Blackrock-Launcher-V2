@@ -83,7 +83,7 @@ const createWindow = () => {
   mainWindow.loadFile("./views/main.html");
   bootstrapWindow.loadFile("./views/bootstrap.html");
 
-  mainWindow.webContents.openDevTools({mode: 'detach', activate: true})
+  // mainWindow.webContents.openDevTools({mode: 'detach', activate: true})
 };
 app.on("ready", function () {
   autoUpdater.checkForUpdatesAndNotify();

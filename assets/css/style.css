@@ -8,8 +8,6 @@ body{
     background-repeat: no-repeat;
     backdrop-filter: blur(2px);
     -webkit-app-region: drag
-
-
 }
 
 body::-webkit-scrollbar{
