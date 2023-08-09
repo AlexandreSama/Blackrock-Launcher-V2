@@ -76,6 +76,8 @@ const createWindow = () => {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true
     },
+    autoHideMenuBar: true,
+    frame: false,
     // autoHideMenuBar: true,
     // frame: false
   });
