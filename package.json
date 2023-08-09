@@ -1,6 +1,6 @@
 {
   "name": "blackrock-launcher-v2",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "A Launcher for my Minecraft Server",
   "main": "main.js",
   "icon": "./logo.ico",
@@ -8,8 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
     "build": "electron-builder build --win --publish never",
-    "deploy": "electron-builder build --win --publish always",
-    "buildBundle": "webpack"
+    "deploy": "electron-builder build --win --publish always"
   },
   "repository": {
     "type": "git",

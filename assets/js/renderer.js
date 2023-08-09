@@ -90,7 +90,7 @@ reduceBtn.addEventListener('click', () => {
 })
 
 function onLogin(profilePicture, uid, username, playBtn, loginBtn) {
-    profilePicture.src = 'https://crafatar.kashir.fr/avatars/' + uid
+    profilePicture.src = 'https://minotar.net/avatar/' + uid
     loginBtn.disabled = true
     playBtn.disabled = false
 
