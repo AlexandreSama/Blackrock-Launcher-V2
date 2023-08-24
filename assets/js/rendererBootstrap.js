@@ -1,10 +1,17 @@
 var progressbar = document.getElementById('progress-bar')
-var fullBar = document.getElementById('fullBar')
+var fullBar = document.getElementById('progress')
 
 
 const changeProgress = (progress) => {
     progressbar.style.width = `${progress}%`;
 };
+
+let i = 1
+
+setInterval(() => {
+    changeProgress(i);
+    i++
+}, 1000)
 
 window.app.bootstrapDownload((__event, data) => {
     changeProgress(data.percent.toString())
