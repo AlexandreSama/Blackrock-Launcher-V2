@@ -4,8 +4,8 @@ contextBridge.exposeInMainWorld('app', {
     nomApp: () => ipcRenderer.invoke('getAppName'),
     versionApp: () => ipcRenderer.invoke('getAppVersion'),
     goToParam: () => ipcRenderer.invoke('goToParam'),
-    saveRam: (ram) => ipcRenderer.invoke('saveRam', ram),
-    ramSaved: (data) => ipcRenderer.on('ramSaved', (data)),
+    // saveRam: (ram) => ipcRenderer.invoke('saveRam', ram),
+    // ramSaved: (data) => ipcRenderer.on('ramSaved', (data)),
     showGameFolder: () => ipcRenderer.invoke('showGameFolder'),
     getChangelogs: () => ipcRenderer.invoke('getChangelogs'),
     changelogs: (changelogs) => ipcRenderer.on('changelogs', (changelogs)),
@@ -25,5 +25,7 @@ contextBridge.exposeInMainWorld('mc', {
     onJavaAlreadyDownloaded: (data) => ipcRenderer.on('javaEvents', (data)),
     onJavaDownloaded: (data) => ipcRenderer.on('javaEvents', (data)),
     onStoppingGame: (data) => ipcRenderer.on('stoppingGame', (data)),
-    getRam: () => ipcRenderer.invoke('getRam')
+    // getRam: () => ipcRenderer.invoke('getRam'),
+    getPlayers: () => ipcRenderer.invoke('getPlayers'),
+    receivePlayers : (data) => ipcRenderer.on('receivePlayers', (data))
 })

@@ -1,216 +1,163 @@
-const profilePicture = document.getElementById('profilePicture')
-var playBtn = document.getElementById('playBtn')
-var loginBtn = document.getElementsByClassName('loginMS')[0]
-var progressbar = document.getElementById('progress-bar')
-var fullBar = document.getElementById('fullBar')
-var tab = document.getElementById('v-pills-tab')
-var range = document.getElementById('customRange3')
-var label = document.getElementById('ramSelect')
-var saveRam = document.getElementById('saveRam')
-var showGameFolder = document.getElementById('showGameFolder')
-var changelogsPlace = document.getElementById('changelogs')
-var closeBtn = document.getElementById('closeApp')
-var reduceBtn = document.getElementById('reduceApp')
-var nbModsDownloaded = 1
+const profilePicture = document.getElementById('profilePicture');
+const playBtn = document.querySelector('.playBtn')
+const loginBtn = document.querySelector('.loginBtn');
+const progressbar = document.getElementById('progress-bar');
+const fullBar = document.getElementById('fullBar');
+const tab = document.getElementById('v-pills-tab');
+const range = document.getElementById('customRange3');
+const label = document.getElementById('ramSelect');
+const saveRam = document.getElementById('saveRam');
+const showGameFolder = document.getElementById('showGameFolder');
+const changelogsPlace = document.getElementById('changelogs');
+const playersOnline = document.getElementById('playersOnline')
+const paramBtn = document.querySelector('.paramBtn')
+const statusServer = document.querySelector('.statusServer')
+const pingServer = document.querySelector('.pingServer')
+let nbModsDownloaded = 1;
 
-window.app.versionApp().then((res) => {
-    document.title = 'Blackrock Launcher | V' + res
+window.app.versionApp().then(res => {
+  document.title = `Blackrock Launcher | V${res}`;
+});
+
+window.mc.receivePlayers((__event, data) => {
+  playersOnline.innerHTML = data[0] + ' joueurs connectés'
+  statusServer.innerHTML = data[1]
+  pingServer.innerHTML = data[2]
 })
-window.app.getChangelogs()
+window.mc.getPlayers();
 
-window.app.changelogs((__event, data) => {
-    data.forEach((element) => {
+// window.app.getChangelogs();
 
-        let test = element.body.split('-')
-        let i = 0
-        let temp = 1
+// window.app.changelogs((__event, data) => {
+//   data.forEach(element => {
+//     const test = element.body.split('-');
+//     const holderContentUpdate = document.createElement('ul');
+//     holderContentUpdate.className = 'list-unstyled mt-3';
 
-        let dateGithub = Date.parse(element.created_at)
-        let realDate = new Date(dateGithub).toLocaleDateString('fr')
-        let title = document.createElement('h5')
-        title.className = 'mt-4'
-        let titleContent = document.createTextNode(' - ' + realDate)
-        let spanTitle = document.createElement('span')
-        spanTitle.className = 'p-2 bg-light shadow rounded text-success'
-        let spanContent = document.createTextNode('Version ' + element.tag_name)
+//     const dateGithub = Date.parse(element.created_at);
+//     const realDate = new Date(dateGithub).toLocaleDateString('fr');
 
-        let holderContentUpdate = document.createElement('ul')
-        holderContentUpdate.className = "list-unstyled mt-3"
-        
-        if(test.length > 1){
-            while (temp <= test.length) {
+//     const title = document.createElement('h5');
+//     title.className = 'mt-4';
+//     title.innerHTML = `<span class="p-2 bg-light shadow rounded text-success">Version ${element.tag_name}</span> - ${realDate}`;
 
-                if(test[i].length > 0){
-                    let contentUpdateLi = document.createElement('li')
-                    contentUpdateLi.className = "text-dark fw-bold ml-3"
-                    let iconContentUpdate = document.createElement('i')
-                    iconContentUpdate.className = "mdi mdi-circle-medium mr-2"
-                    let contentUpdate = document.createTextNode(test[i])
+//     if (test.length > 1) {
+//       test.forEach(content => {
+//         if (content.length > 0) {
+//           const contentUpdateLi = document.createElement('li');
+//           contentUpdateLi.className = 'text-dark fw-bold ml-3';
+//           contentUpdateLi.innerHTML = `<i class="mdi mdi-circle-medium mr-2"></i>${content}`;
+//           holderContentUpdate.appendChild(contentUpdateLi);
+//         }
+//       });
+//     } else {
+//       const contentUpdateLi = document.createElement('li');
+//       contentUpdateLi.className = 'text-dark fw-bold ml-3';
+//       contentUpdateLi.innerHTML = `<i class="mdi mdi-circle-medium mr-2"></i>${element.body}`;
+//       holderContentUpdate.appendChild(contentUpdateLi);
+//     }
 
-                    contentUpdateLi.appendChild(iconContentUpdate)
-                    contentUpdateLi.appendChild(contentUpdate)
-                    holderContentUpdate.appendChild(contentUpdateLi)
-                }
-                i++
-                temp++
-
-            }
-        }else{
-
-            let contentUpdateLi = document.createElement('li')
-            contentUpdateLi.className = "text-dark fw-bold ml-3"
-            let iconContentUpdate = document.createElement('i')
-            iconContentUpdate.className = "mdi mdi-circle-medium mr-2"
-            let contentUpdate = document.createTextNode(element.body)
-            contentUpdateLi.appendChild(iconContentUpdate)
-            contentUpdateLi.appendChild(contentUpdate)
-            holderContentUpdate.appendChild(contentUpdateLi)
-
-        }
-        
-        spanTitle.appendChild(spanContent)
-        title.appendChild(spanTitle)
-        title.appendChild(titleContent)
-        changelogsPlace.appendChild(title)
-        changelogsPlace.appendChild(holderContentUpdate)
-
-    })
-})
+//     changelogsPlace.appendChild(title);
+//     changelogsPlace.appendChild(holderContentUpdate);
+//   });
+// });
 
 loginBtn.addEventListener('click', () => {
-    window.mc.login();
-})
+  window.mc.login();
+});
 
-closeBtn.addEventListener('click', () => {
-    window.app.closeApp()
-})
+const onLogin = (profilePicture, uid, username, playBtn, loginBtn) => {
+  profilePicture.src = `https://minotar.net/avatar/${uid}`;
+  loginBtn.disabled = true;
+  loginBtn.innerHTML = username
+  playBtn.disabled = false;
 
-reduceBtn.addEventListener('click', () => {
-    window.app.reduceApp()
-})
-
-function onLogin(profilePicture, uid, username, playBtn, loginBtn) {
-    profilePicture.src = 'https://minotar.net/avatar/' + uid
-    loginBtn.disabled = true
-    playBtn.disabled = false
-
-    let newButton = document.createElement('button')
-    let newContent = document.createTextNode('Paramètres')
-    newButton.className = 'nav-link param'
-    newButton.id = 'v-pills-param-tab'
-    newButton.setAttribute('data-bs-toggle', 'pill')
-    newButton.setAttribute('data-bs-target', '#v-pills-param')
-    newButton.type = 'button'
-    newButton.setAttribute('role', 'tab')
-    newButton.setAttribute('aria-controls', 'v-pills-param')
-    newButton.ariaSelected = 'false'
-
-    newButton.appendChild(newContent)
-    tab.appendChild(newButton)
-    
-}
-
-window.mc.onLoginDone((__event, profile) => {
-    onLogin(profilePicture, profile[1], profile[0], playBtn, loginBtn)
-    console.log('test')
-})
-
-//MC PARTS
-
-/**
- * The function `changeProgress` updates the width of a progress bar element based on the given
- * progress value.
- * @param {int} progress - The progress parameter is a number that represents the percentage of progress. It
- * should be a value between 0 and 100.
- */
-const changeProgress = (progress) => {
-    progressbar.style.width = `${progress}%`;
+  const newButton = document.createElement('button');
+  newButton.className = 'nav-link param';
+  newButton.id = 'v-pills-param-tab';
+  newButton.setAttribute('data-bs-toggle', 'pill');
+  newButton.setAttribute('data-bs-target', '#v-pills-param');
+  newButton.type = 'button';
+  newButton.setAttribute('role', 'tab');
+  newButton.setAttribute('aria-controls', 'v-pills-param');
+  newButton.ariaSelected = false;
+  newButton.innerHTML = 'Paramètres';
+  tab.appendChild(newButton);
 };
 
+window.mc.onLoginDone((__event, profile) => {
+  onLogin(profilePicture, profile[1], profile[0], playBtn, loginBtn);
+  console.log('test');
+});
+
+const changeProgress = progress => {
+  progressbar.style.width = `${progress}%`;
+};
 
 playBtn.addEventListener('click', () => {
-    window.mc.play()
-    playBtn.disabled = true
-    saveRam.disabled = true
-    fullBar.style.width = '100%'
-    progressbar.style.width = '100%'
-    progressbar.innerHTML = 'Préparation du lancement...'
-})
+  window.mc.play();
+  playBtn.disabled = true;
+  saveRam.disabled = true;
+  fullBar.style.width = '100%';
+  progressbar.style.width = '100%';
+  progressbar.innerHTML = 'Préparation du lancement...';
+});
 
-/* The `window.mc.onDataDownload` function is an event listener that listens for the "dataDownload"
-event emitted by the `window.mc` object. When this event is triggered, the provided callback
-function is executed. */
 window.mc.onDataDownload((__event, data) => {
-    progressbar.innerHTML = `Téléchargement des ${data.type} : ${data.task} / ${data.total}`
-
-    if (data.type === "assets") {
-        let percent = (data.task / data.total) * 100
-        changeProgress(percent)
-    } else if (data.type === "natives") {
-        let percent = (data.task / data.total) * 100
-        changeProgress(percent)
-    } else if (data.type === "classes-maven-custom") {
-        let percent = (data.task / data.total) * 100
-        changeProgress(percent)
-    } else if (data.type === "classes-custom") {
-        let percent = (data.task / data.total) * 100
-        changeProgress(percent)
-    } else if (data.type === "classes") {
-        let percent = (data.task / data.total) * 100
-        changeProgress(percent)
-    }
-})
+  progressbar.innerHTML = `Téléchargement des ${data.type} : ${data.task} / ${data.total}`;
+  const percent = (data.task / data.total) * 100;
+  changeProgress(percent);
+});
 
 window.mc.onMissedModsDownload((__event, data) => {
-    progressbar.innerHTML =
-        `Téléchargement de ${nbModsDownloaded} mods sur ${data}`
-    let percent = (nbModsDownloaded / data) * 100
-    console.log(percent)
-    changeProgress(percent)
-    nbModsDownloaded++
-})
+  progressbar.innerHTML = `Téléchargement de ${nbModsDownloaded} mods sur ${data}`;
+  const percent = (nbModsDownloaded / data) * 100;
+  console.log(percent);
+  changeProgress(percent);
+  nbModsDownloaded++;
+});
 
 window.mc.onForgeAlreadyDownload((__event, data) => {
-    progressbar.innerHTML = "Forge déjà téléchargé"
-})
+  progressbar.innerHTML = 'Forge déjà téléchargé';
+});
 
 window.mc.onForgeDownloaded((__event, data) => {
-    progressbar.innerHTML = data
-})
+  progressbar.innerHTML = data;
+});
 
 window.mc.onJavaAlreadyDownloaded((__event, data) => {
-    progressbar.innerHTML = "Java déjà téléchargé"
-})
+  progressbar.innerHTML = 'Java déjà téléchargé';
+});
 
 window.mc.onJavaDownloaded((__event, data) => {
-    progressbar.innerHTML = data
-})
+  progressbar.innerHTML = data;
+});
 
 window.mc.onStoppingGame((__event, data) => {
-    progressbar.innerHTML = ''
-    fullBar.style.width = '0'
-    playBtn.disabled = false
-    saveRam.disabled = false
-})
+  progressbar.innerHTML = '';
+  fullBar.style.width = '0';
+  playBtn.disabled = false;
+  saveRam.disabled = false;
+});
 
-window.mc.getRam().then((res) => {
-    label.innerHTML = res
-    range.value = res
-})
+// window.mc.getRam().then(res => {
+//   label.innerHTML = res;
+//   range.value = res;
+// });
 
-range.oninput = function(){
-    label.innerHTML = this.value + 'G'
-}
+// range.addEventListener('input', () => {
+//   label.innerHTML = `${range.value}G`;
+// });
 
-saveRam.addEventListener('click', () => {
-    window.app.saveRam(range.value)
-})
+// saveRam.addEventListener('click', () => {
+//   window.app.saveRam(range.value);
+// });
 
-showGameFolder.addEventListener('click', () => {
-    window.app.showGameFolder()
-})
+// showGameFolder.addEventListener('click', () => {
+//   window.app.showGameFolder();
+// });
 
-window.app.ramSaved((__event, data) => {
-    label.innerHTML = data
-    range.value = data
-})
+// window.app.ramSaved((__event, data) => {
+//   label.innerHTML = data;
+//   range.value = data;
+// });

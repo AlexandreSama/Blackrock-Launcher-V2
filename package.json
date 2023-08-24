@@ -47,6 +47,7 @@
     "minecraft-launcher-core": "^3.17.1",
     "moment": "^2.29.4",
     "msmc": "^4.1.0",
+    "node-mcstatus": "^1.1.0",
     "node-notifier": "^10.0.1",
     "nodejs-file-downloader": "^4.12.1",
     "update-electron-app": "^2.0.1"

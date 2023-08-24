@@ -1,0 +1,143 @@
+.holder{
+    backdrop-filter: blur(10px);
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #272825;
+    padding: 20px;
+    position: fixed;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sidebar img {
+    width: 50px;
+    height: 50px;
+    border-radius: 20%;
+    margin-bottom: 10px;
+}
+
+.btn{
+    background-color: #393939;
+    color: white;
+}
+
+.btn:hover{
+    color: white;
+    background-color: #393939;
+    border-color: 0;
+}
+.btn:disabled{
+    color: white;
+}
+
+.content {
+    margin-left: 200px; /* Pour tenir compte de la sidebar */
+    padding: 30px;
+    background-image: url('../images/novaskin-wallpaper-onaboat.jpg');
+    height: 100vh;
+}
+.content2{
+    height: 50%;
+}
+
+.rectangle {
+    background-color: #262726;
+    color: white;
+    padding: 20px;
+    position: relative;
+    background-size: cover;
+    background-position: center center;
+    display: flex;
+}
+
+.rectangle img {
+    max-width: 100px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.rectangle p {
+    margin: 0;
+    padding: 0;
+}
+
+.half-height {
+    height: 50px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.rectangle-first {
+    background-image: url('../images/988247-download-minecraft-wallpaper-hd-1920x1080-samsung.jpg');
+    height: 15%;
+    margin-bottom: 30px;
+    flex-direction: column
+}
+
+.rectangle-second {
+    background-image: url('../images/b6zzVDW.jpg');
+    height: 100%;
+}
+
+.rectangle-third, .rectangle-fourth{
+    align-items: center;
+}
+
+.progress-container {
+    position: relative; 
+    height: 5px;
+    width: 80%;
+    margin-left: 15px;
+    background-color: white;
+}
+
+.progress-label {
+    position: absolute;
+    padding: 0 5px;
+    line-height: 20px;
+    font-size: 12px;
+    bottom: 15px;
+}
+
+.progress-bar {
+    background-color: #007bff; /* Couleur de la barre de progression */
+    width: 0; /* La largeur de la barre de progression sera gérée par le style en ligne */
+    height: 5px;
+}
+
+.playBtn{
+    background-color: #379E41;
+    width: 25%;
+}
+
+.image-icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.text-muted {
+    color: white!important;
+    margin-top: 5px;
+    align-self: flex-end; 
+}
+.badge-number {
+    position: absolute;
+    top: 40px;
+    right: 20px;
+    background-color: #379E41;
+    color: white;
+    font-size: 18px;
+    padding: 5px 10px;
+    border-radius: 0 5px 5px 0;
+    width: 44%;
+    text-align: center;
+}

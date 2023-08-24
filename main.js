@@ -11,6 +11,10 @@ const logNocturia = require("electron-log");
 const logApp = require("electron-log");
 const { autoUpdater } = require("electron-updater");
 const notifier = require("node-notifier");
+const host = '188.165.38.14';
+const mcs = require('node-mcstatus');
+const portMC = 25565;
+const options = { query: true };
 
 const authManager = new Auth("select_account");
 const launcher = new Client();
@@ -34,16 +38,16 @@ function sendStatusToWindow(text) {
 
 const createWindow = () => {
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1115,
+    height: 720,
     icon: "./build/logo.ico",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
       // devTools: true
     },
-    autoHideMenuBar: true,
-    frame: false,
+    autoHideMenuBar: false,
+    frame: true,
   });
 
   bootstrapWindow = new BrowserWindow({
@@ -60,8 +64,9 @@ const createWindow = () => {
     frame: false,
   });
 
-  mainWindow.loadFile("./views/main.html");
+  mainWindow.loadFile("./views/test.html");
   bootstrapWindow.loadFile("./views/bootstrap.html");
+  bootstrapWindow.show()
 };
 
 app.on("ready", function () {
@@ -127,6 +132,19 @@ app.on("window-all-closed", () => {
 ipcMain.handle("getAppName", () => app.getName());
 
 ipcMain.handle("getAppVersion", () => app.getVersion());
+
+ipcMain.handle("getPlayers", () => {
+  mcs.statusJava(host, portMC, options)
+  .then((result) => {
+      if(result.online == false){
+        mainWindow.webContents.send("receivePlayers", [0, 'Fermé', '0ms'])
+      }else{
+        mainWindow.webContents.send("receivePlayers", [result.players.online, 'Ouvert', '10ms'])
+      }
+  }).catch((err) => {
+    console.log(err)
+  })
+})
 
 ipcMain.handle("goToParam", () => mainWindow.loadFile("./views/param.html"));
 
