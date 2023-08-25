@@ -1,19 +1,15 @@
 var progressbar = document.getElementById('progress-bar')
-var fullBar = document.getElementById('progress')
-
-
+var labelBar = document.querySelector('.progress-label')
 const changeProgress = (progress) => {
     progressbar.style.width = `${progress}%`;
 };
 
-let i = 1
-
-setInterval(() => {
-    changeProgress(i);
-    i++
-}, 1000)
+function bitsToMegabits(bits) {
+    const megabits = bits / 1000000; // 1 mégabit = 1000000 bits
+    return megabits;
+}
 
 window.app.bootstrapDownload((__event, data) => {
     changeProgress(data.percent.toString())
-    progressbar.innerHTML = 'Téléchargement a ' + data.percent.toString() + ' % | Vitesse de DWL : ' + bytesPerSecond + ' Mb/s'
+    labelBar.innerHTML = 'Téléchargement a ' + data.percent.toFixed(1) + ' %'
 })

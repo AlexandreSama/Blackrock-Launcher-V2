@@ -83,7 +83,7 @@ window.mc.onJavaDownloaded((__event, data) => {
 });
 
 window.mc.onStoppingGame((__event, data) => {
-  progressbar.innerHTML = '';
+  labelBar.innerHTML = '';
   progressbar.style.width = '0';
   playBtn.disabled = false;
 });

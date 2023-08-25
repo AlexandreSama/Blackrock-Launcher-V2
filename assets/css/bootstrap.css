@@ -19,7 +19,13 @@ body {
     width: 80%;
     max-width: 250px;
   }
-  
+  .progress-label {
+    position: absolute;
+    padding: 0 5px;
+    line-height: 20px;
+    font-size: 12px;
+    bottom: 15px;
+}
   .progress {
     height: 20px;
     background-color: #ffffff;

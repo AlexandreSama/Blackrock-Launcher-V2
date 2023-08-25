@@ -10,7 +10,7 @@ const axios = require("axios").default;
 const logNocturia = require("electron-log");
 const logApp = require("electron-log");
 const { autoUpdater } = require("electron-updater");
-const notifier = require("node-notifier");
+const WindowsToaster = require('node-notifier').WindowsToaster;
 const host = '188.165.38.14';
 const mcs = require('node-mcstatus');
 const portMC = 25565;
@@ -19,7 +19,11 @@ const options = { query: true };
 const authManager = new Auth("select_account");
 const launcher = new Client();
 
+let windowsToasterNotifier = new WindowsToaster({
+  withFallback: true
+});
 let mainWindow;
+let responseUpdate
 let bootstrapWindow;
 let token;
 let url = "https://api.github.com/repos/AlexandreSama/Blackrock-Launcher-V2/releases";
@@ -31,6 +35,10 @@ autoUpdater.logger.transports.file.level = "info";
 autoUpdater.logger.transports.file.resolvePath = () => path.join(appPaths[0], "logs/main.log");
 logNocturia.transports.file.resolvePath = () => path.join(nocturiaPaths[0], "NocturiaLogs/main.log");
 autoUpdater.setFeedURL({ provider: "github", owner: "AlexandreSama", repo: "Blackrock-Launcher-V2" });
+// autoUpdater.setFeedURL({ 
+//   provider: "generic",
+//   url: 'https://kashir.fr/UpdaterBlackrock/'
+// });
 
 function sendStatusToWindow(text) {
   logApp.info(text);
@@ -85,17 +93,19 @@ autoUpdater.on("error", (err) => {
   sendStatusToWindow("Error in auto-updater. " + err);
 });
 
+console.log(path.join(__dirname, "/logo.jpg"))
 autoUpdater.on("update-available", () => {
   sendStatusToWindow("Update available.");
-  notifier.notify({
+  windowsToasterNotifier.notify({
     title: "Mise a jour est disponible !",
+    icon: path.join(__dirname, "logo.jpg"),
     message: "Une mise a jour est disponible ! Voulez-vous la télécharger et l'installer ?",
     actions: ["Oui", "Non"],
     wait: true,
-    icon: "./logo.ico",
-    sound: "./update.mp3",
+    sound: "SMS"
   }, function (err, response, metadata) {
     if (response === "oui") {
+      responseUpdate = response
       mainWindow.hide();
       bootstrapWindow.show();
     }
