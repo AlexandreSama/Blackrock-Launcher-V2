@@ -54,7 +54,7 @@ const createWindow = () => {
       contextIsolation: true,
       // devTools: true
     },
-    autoHideMenuBar: true,
+    autoHideMenuBar: false,
     frame: true,
   });
 
@@ -157,11 +157,13 @@ ipcMain.handle("getPlayers", () => {
 })
 
 ipcMain.handle("goToParam", () => mainWindow.loadFile("./views/param.html"));
-ipcMain.handle("goToMain", async () =>{
+ipcMain.handle("goToMain", () =>{
   mainWindow.loadFile("./views/main.html")
   mainWindow.webContents.on('did-finish-load', () => {
     if(token){
       mainWindow.webContents.send("loginDone", [token.profile.name, token.profile.id])
+    }else{
+      console.log('bruh')
     }
   })
 })
