@@ -46,7 +46,7 @@ const createWindow = () => {
       contextIsolation: true,
       // devTools: true
     },
-    autoHideMenuBar: false,
+    autoHideMenuBar: true,
     frame: true,
   });
 
@@ -64,9 +64,9 @@ const createWindow = () => {
     frame: false,
   });
 
-  mainWindow.loadFile("./views/test.html");
+  mainWindow.loadFile("./views/main.html");
   bootstrapWindow.loadFile("./views/bootstrap.html");
-  bootstrapWindow.show()
+  // bootstrapWindow.show()
 };
 
 app.on("ready", function () {
@@ -147,7 +147,13 @@ ipcMain.handle("getPlayers", () => {
 })
 
 ipcMain.handle("goToParam", () => mainWindow.loadFile("./views/param.html"));
-
+ipcMain.handle("goToMain", async () =>{
+  mainWindow.loadFile("./views/main.html")
+  mainWindow.webContents.on('did-finish-load', () => {
+    mainWindow.webContents.send("loginDone", [token.profile.name, token.profile.id])
+    console.log('test')
+  })
+})
 ipcMain.handle("showGameFolder", () => shell.openPath(nocturiaPaths[0]));
 
 ipcMain.handle("loginMS", async (event, data) => {

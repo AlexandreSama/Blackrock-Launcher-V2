@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/param.css" />
+    <title></title>
+</head>
+
+<body>
+    <div class="container-fluid h-100">
+        <div class="row h-100vh">
+          <div class="col-md-12 text-center p-5 d-flex flex-column">
+            <div class="btn-group mt-3">
+              <button class="btn btn-primary custom-btn-width">Accueil</button>
+            </div>
+            <h1>Paramètres</h1>
+            <div class="form-group mt-4">
+              <label for="ramRange" class="labelRam">Ram</label>
+              <input type="range" class="form-range" id="ramRange" min="8" max="12">
+              <button class="btn btn-success mt-3 saveRam">Sauvegarder</button>
+            </div>
+          </div>
+        </div>
+        <div class="row h-100vh border-top-5">
+          <div class="col-md-12 text-center p-5">
+            <h1>Dossier du jeu</h1>
+            <button class="btn btn-warning mt-3 showFolder">Ouvrir</button>
+          </div>
+        </div>
+      </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/rendererParam.js"></script>
+
+</html>
