@@ -160,8 +160,9 @@ ipcMain.handle("goToParam", () => mainWindow.loadFile("./views/param.html"));
 ipcMain.handle("goToMain", async () =>{
   mainWindow.loadFile("./views/main.html")
   mainWindow.webContents.on('did-finish-load', () => {
-    mainWindow.webContents.send("loginDone", [token.profile.name, token.profile.id])
-    console.log('test')
+    if(token){
+      mainWindow.webContents.send("loginDone", [token.profile.name, token.profile.id])
+    }
   })
 })
 ipcMain.handle("showGameFolder", () => shell.openPath(nocturiaPaths[0]));
