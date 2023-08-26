@@ -54,7 +54,7 @@ const createWindow = () => {
       contextIsolation: true,
       // devTools: true
     },
-    autoHideMenuBar: false,
+    autoHideMenuBar: true,
     frame: true,
   });
 

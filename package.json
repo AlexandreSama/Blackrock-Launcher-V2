@@ -1,6 +1,6 @@
 {
   "name": "blackrock-launcher-v2",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A Launcher for my Minecraft Server",
   "main": "main.js",
   "icon": "./logo.ico",
